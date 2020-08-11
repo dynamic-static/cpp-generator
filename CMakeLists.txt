@@ -25,7 +25,7 @@ set(includePath "${includeDirectory}/dynamic_static/cpp-generator/")
 set(includeFiles
     "${includePath}/ascii-grid.hpp"
     "${includePath}/cpp-compile-guard.hpp"
-    "${includePath}/cpp-element.hpp"
+    "${includePath}/cpp-element-collection.hpp"
     "${includePath}/cpp-file.hpp"
     "${includePath}/cpp-file.pair.hpp"
     "${includePath}/cpp-function.hpp"
@@ -34,6 +34,7 @@ set(includeFiles
     "${includePath}/cpp-source-block.hpp"
     "${includePath}/cpp-source-block.error.hpp"
     "${includePath}/cpp-source-block.option.hpp"
+    "${includePath}/cpp-string-element.hpp"
     "${includePath}/cpp-structure.hpp"
     "${includePath}/cpp-template.hpp"
     "${includePath}/cpp-variable.hpp"
@@ -45,13 +46,13 @@ set(sourcePath "${sourceDirectory}/dynamic_static/cpp-generator/")
 set(sourceFiles
 
     "${sourcePath}/cpp-compile-guard.cpp"
-    "${sourcePath}/cpp-element.cpp"
     "${sourcePath}/cpp-file.cpp"
     "${sourcePath}/cpp-file.pair.cpp"
     "${sourcePath}/cpp-function.cpp"
     "${sourcePath}/cpp-namespace.cpp"
     "${sourcePath}/cpp-parameter.cpp"
     "${sourcePath}/cpp-source-block.cpp"
+    "${sourcePath}/cpp-source-block.error.cpp"
     "${sourcePath}/cpp-source-block.option.cpp"
     "${sourcePath}/cpp-source-element.cpp"
     "${sourcePath}/cpp-source-element.hpp"

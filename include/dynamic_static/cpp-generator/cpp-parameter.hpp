@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "dynamic_static/cpp-generator/cpp-element.hpp"
+#include "dynamic_static/cpp-generator/cpp-element-collection.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
 #include <iosfwd>
@@ -24,21 +24,24 @@ namespace cppgen {
 TODO : Documentation
 */
 class CppParameter final
-    : public CppElement
+    : public IGeneratable
 {
 public:
     class Collection;
-    using CppElement::generate;
 
     /**
     TODO : Documentation
     */
-    CppParameter(std::string_view cppType = { }, std::string_view cppName = { }, std::string_view cppValue = { });
+    CppParameter(
+        std::string_view cppType = { },
+        std::string_view cppName = { },
+        std::string_view cppValue = { }
+    );
 
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, CppGenerationFlags flags) const override final;
+    void generate(std::ostream& strm, Flags flags) const override final;
 
     std::string cppType;  //!< TODO : Documentation
     std::string cppName;  //!< TODO : Documentation
@@ -49,22 +52,16 @@ public:
 TODO : Documentation
 */
 class CppParameter::Collection final
-    : public CppElement::Collection<CppParameter>
+    : public CppElementCollection<CppParameter>
 {
 public:
-    using CppElement::Collection<CppParameter>::Collection;
-    using CppElement::Collection<CppParameter>::generate;
+    using CppElementCollection<CppParameter>::CppElementCollection;
 
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, CppGenerationFlags flags) const override final;
+    void generate(std::ostream& strm, Flags flags) const override final;
 };
-
-/**
-TODO : Documentation
-*/
-using CppParameters = CppParameter::Collection;
 
 } // namespace cppgen
 } // namespace dst

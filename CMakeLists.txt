@@ -25,6 +25,7 @@ set(includePath "${includeDirectory}/dynamic_static/cpp-generator/")
 set(includeFiles
     "${includePath}/ascii-grid.hpp"
     "${includePath}/cpp-compile-guard.hpp"
+    "${includePath}/cpp-element.hpp"
     "${includePath}/cpp-file.hpp"
     "${includePath}/cpp-file.pair.hpp"
     "${includePath}/cpp-function.hpp"
@@ -44,6 +45,7 @@ set(sourcePath "${sourceDirectory}/dynamic_static/cpp-generator/")
 set(sourceFiles
 
     "${sourcePath}/cpp-compile-guard.cpp"
+    "${sourcePath}/cpp-element.cpp"
     "${sourcePath}/cpp-file.cpp"
     "${sourcePath}/cpp-file.pair.cpp"
     "${sourcePath}/cpp-function.cpp"
@@ -75,6 +77,7 @@ set(targetTests ${target}.tests)
 set(testsSourcePath "${CMAKE_CURRENT_LIST_DIR}/tests/")
 set(testsSourceFiles
     "${testsSourcePath}/catch.hpp"
+    "${testsSourcePath}/cpp-parameter.tests.cpp"
     "${testsSourcePath}/cpp-source-block.tests.cpp"
     "${testsSourcePath}/cpp-source-region.tests.cpp"
     "${testsSourcePath}/cpp-source-tag.tests.cpp"

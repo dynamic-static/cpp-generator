@@ -24,7 +24,7 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
-enum FlagBits
+enum CppFlagBits
 {
     Inline         = 1,
     Declaration    = Inline,  //!< TODO : Documentation
@@ -45,12 +45,12 @@ enum FlagBits
 /**
 TODO : Documentation
 */
-using Flags = uint32_t;
+using CppFlags = uint32_t;
 
 /**
 TODO : Documentation
 */
-enum AccessModifier
+enum CppAccessModifier
 {
     Unspecified, //!< TODO : Documentation
     Public,      //!< TODO : Documentation
@@ -67,13 +67,13 @@ public:
     /**
     TODO : Documentation
     */
-    virtual void generate(std::ostream& strm, Flags flags) const = 0;
+    virtual void generate(std::ostream& strm, CppFlags cppFlags) const = 0;
 };
 
 /**
 TODO : Documentation
 */
-inline std::string to_string(const IGeneratable& generatable, Flags flags)
+inline std::string to_string(const IGeneratable& generatable, CppFlags flags)
 {
     std::stringstream strStrm;
     generatable.generate(strStrm, flags);

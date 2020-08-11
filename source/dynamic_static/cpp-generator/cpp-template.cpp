@@ -25,7 +25,7 @@ CppTemplate::CppTemplate(
 {
 }
 
-void CppTemplate::generate(std::ostream& strm, Flags flags) const
+void CppTemplate::generate(std::ostream& strm, CppFlags cppFlags) const
 {
     if (flags & Declaration || flags & Definition) {
         if (flags & Specialization && !cppSpecializations.empty()) {

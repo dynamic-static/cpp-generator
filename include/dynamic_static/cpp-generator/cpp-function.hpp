@@ -18,6 +18,8 @@
 
 #include <iosfwd>
 #include <string>
+#include <string_view>
+#include <vector>
 
 namespace dst {
 namespace cppgen {
@@ -34,14 +36,40 @@ public:
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, Flags flags) const override final;
+    CppFunction(
+        CppAccessModifier cppAccessModifier = { Unspecified },
+        const std::vector<std::string>& cppCompileGuards = { },
+        const CppTemplate& cppTemplate = { },
+        std::string_view cppReturnType = { },
+        std::string_view cppName = { },
+        const CppParameter::Collection& cppParameters = { },
+        CppFlags cppFlags = { },
+        CppSourceBlock cppSourceBlock = { }
+    );
 
-    Flags flags { };                        //!< TODO : Documentation
-    CppTemplate cppTemplate;                //!< TODO : Documentation
-    std::string cppReturnType;              //!< TODO : Documentation
-    std::string cppName;                    //!< TODO : Documentation
-    CppParameter::Collection cppParameters; //!< TODO : Documentation
-    CppSourceBlock cppSourceBlock;          //!< TODO : Documentation
+    /**
+    TODO : Documentation
+    */
+    CppFunction(
+        std::string_view cppReturnType = { },
+        std::string_view cppName = { },
+        const CppParameter::Collection& cppParameters = { },
+        CppSourceBlock cppSourceBlock = { }
+    );
+
+    /**
+    TODO : Documentation
+    */
+    void generate(std::ostream& strm, CppFlags cppFlags) const override final;
+
+    CppAccessModifier cppAccessModifier { Unspecified }; //!< TODO : Documentation
+    std::vector<std::string> cppCompileGuards;           //!< TODO : Documentation
+    CppTemplate cppTemplate;                             //!< TODO : Documentation
+    std::string cppReturnType;                           //!< TODO : Documentation
+    std::string cppName;                                 //!< TODO : Documentation
+    CppParameter::Collection cppParameters;              //!< TODO : Documentation
+    CppFlags cppFlags { };                               //!< TODO : Documentation
+    CppSourceBlock cppSourceBlock;                       //!< TODO : Documentation
 };
 
 /**
@@ -56,7 +84,7 @@ public:
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, Flags flags) const override final;
+    void generate(std::ostream& strm, CppFlags cppFlags) const override final;
 };
 
 } // namespace cppgen

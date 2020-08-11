@@ -26,7 +26,7 @@ CppParameter::CppParameter(
 {
 }
 
-void CppParameter::generate(std::ostream& strm, Flags flags) const
+void CppParameter::generate(std::ostream& strm, CppFlags cppFlags) const
 {
     if (flags & Declaration || flags & Definition) {
         if (!cppType.empty()) {
@@ -41,7 +41,7 @@ void CppParameter::generate(std::ostream& strm, Flags flags) const
     }
 }
 
-void CppParameter::Collection::generate(std::ostream& strm, Flags flags) const
+void CppParameter::Collection::generate(std::ostream& strm, CppFlags cppFlags) const
 {
     size_t count = 0;
     for (const auto& element : *this) {

@@ -39,7 +39,7 @@ public:
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, Flags flags) const override final;
+    void generate(std::ostream& strm, CppFlags cppFlags) const override final;
 
     CppParameter::Collection cppParameters;      //!< TODO : Documentation
     std::vector<std::string> cppSpecializations; //!< TODO : Documentation

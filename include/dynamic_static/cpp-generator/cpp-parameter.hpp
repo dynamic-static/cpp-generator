@@ -41,7 +41,7 @@ public:
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, Flags flags) const override final;
+    void generate(std::ostream& strm, CppFlags cppFlags) const override final;
 
     std::string cppType;  //!< TODO : Documentation
     std::string cppName;  //!< TODO : Documentation
@@ -60,7 +60,7 @@ public:
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, Flags flags) const override final;
+    void generate(std::ostream& strm, CppFlags cppFlags) const override final;
 };
 
 } // namespace cppgen

@@ -13,5 +13,15 @@
 namespace dst {
 namespace cppgen {
 
+void CppFunction::generate(std::ostream& strm, Flags flags) const
+{
+
+}
+
+void CppFunction::Collection::generate(std::ostream& strm, Flags flags) const
+{
+
+}
+
 } // namespace cppgen
 } // namespace dst

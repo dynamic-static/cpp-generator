@@ -26,6 +26,7 @@ namespace cppgen {
 TODO : Documentation
 */
 class CppFunction final
+    : public IGeneratable
 {
 public:
     class Collection;
@@ -33,7 +34,7 @@ public:
     /**
     TODO : Documentation
     */
-    void generate(std::ostream& strm, Flags flags) const;
+    void generate(std::ostream& strm, Flags flags) const override final;
 
     Flags flags { };                        //!< TODO : Documentation
     CppTemplate cppTemplate;                //!< TODO : Documentation

@@ -32,8 +32,8 @@ void CppNamespace::generate(std::ostream& strm, CppGenerationFlags cppGeneration
 void CppNamespace::Collection::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
     if (cppGenerationFlags & Open) {
-        for (const auto& cppCompileGuard : *this) {
-            cppCompileGuard.generate(strm, cppGenerationFlags);
+        for (const auto& cppNamespace : *this) {
+            cppNamespace.generate(strm, cppGenerationFlags);
         }
     } else
     if (cppGenerationFlags & Close) {

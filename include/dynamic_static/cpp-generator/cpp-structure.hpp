@@ -11,6 +11,7 @@
 #pragma once
 
 #include "dynamic_static/cpp-generator/cpp-compile-guard.hpp"
+#include "dynamic_static/cpp-generator/cpp-declaration.hpp"
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
 #include "dynamic_static/cpp-generator/cpp-enum.hpp"
 #include "dynamic_static/cpp-generator/cpp-function.hpp"
@@ -79,6 +80,9 @@ private:
         if constexpr (std::is_same_v<decltype(arg), std::string> || std::is_same_v<decltype(arg), std::string_view>) {
             process_ctor_string_argument(arg);
         } else
+        if constexpr (std::is_same_v<decltype(arg), CppFlagBits> || std::is_integral_v<decltype(arg)>) {
+            mCppFlags |= arg;
+        } else
         if constexpr (std::is_same_v<decltype(arg), CppAccessModifier>) {
             mCppAccessModififer = arg;
         } else
@@ -99,15 +103,16 @@ private:
             if (mCppName.empty()) {
                 mCppName = strView;
             } else {
-                // TODO : mCppDeclarations.push_back(std::string(strView));
+                mCppDeclarations.emplace_back(strView);
             }
         }
     }
 
-    CppCompileGuards mCppCompileGuards;
+    CppCompileGuard::Collection mCppCompileGuards;
     CppTemplate mCppTemplate;
     std::string mCppName;
     CppFlags mCppFlags { };
+    CppDeclaration::Collection mCppDeclarations;
     std::vector<std::pair<CppAccessModifier, std::unique_ptr<CppElement>>> mCppElementPtrs;
     CppAccessModifier mCppAccessModififer { Unspecified };
 };

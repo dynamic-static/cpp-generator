@@ -13,6 +13,9 @@
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
+#include <iosfwd>
+#include <string_view>
+
 namespace dst {
 namespace cppgen {
 
@@ -20,24 +23,16 @@ namespace cppgen {
 TODO : Documentation
 */
 class CppCompileGuard final
-    : public CppElement
+    : public CppStringElement
 {
 public:
     class Collection;
-
-    CppCompileGuard() = default;
-    CppCompileGuard(const std::string& str)
-        : mStr { str }
-    {
-    }
+    using CppStringElement::CppStringElement;
 
     /**
     TODO : Documentation
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
-
-private:
-    std::string mStr;
 };
 
 /**

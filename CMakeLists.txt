@@ -35,7 +35,6 @@ set(includeFiles
     "${includePath}/cpp-source-block.hpp"
     "${includePath}/cpp-source-block.error.hpp"
     "${includePath}/cpp-source-block.option.hpp"
-    "${includePath}/cpp-string-element.hpp"
     "${includePath}/cpp-structure.hpp"
     "${includePath}/cpp-template.hpp"
     "${includePath}/cpp-variable.hpp"

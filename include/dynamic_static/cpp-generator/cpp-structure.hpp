@@ -10,10 +10,103 @@
 
 #pragma once
 
+#include "dynamic_static/cpp-generator/cpp-element.hpp"
+#include "dynamic_static/cpp-generator/cpp-enum.hpp"
+#include "dynamic_static/cpp-generator/cpp-function.hpp"
+#include "dynamic_static/cpp-generator/cpp-template.hpp"
+#include "dynamic_static/cpp-generator/cpp-variable.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
+
+#include <iosfwd>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <type_traits>
+#include <vector>
 
 namespace dst {
 namespace cppgen {
+
+/**
+TODO : Documentation
+*/
+class CppStructure final
+    : public CppElement
+{
+public:
+    class Collection;
+
+    /**
+    TODO : Documentation
+    */
+    template <typename ...Args>
+    inline CppStructure(const Args&... args)
+    {
+        process_ctor_arguments(std::tie(args...));
+    }
+
+    /**
+    TODO : Documentation
+    */
+    void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
+
+private:
+    template <size_t ArgIndex = 0, typename ...Args>
+    inline typename std::enable_if<ArgIndex == sizeof...(Args), void>::type process_ctor_arguments(const std::tuple<const Args&...>& args)
+    {
+    }
+
+    template <size_t ArgIndex = 0, typename ...Args>
+    inline typename std::enable_if<ArgIndex < sizeof...(Args), void>::type process_ctor_arguments(const std::tuple<const Args&...>& args)
+    {
+        auto arg = std::get<ArgIndex>(args);
+        if constexpr (std::is_same_v<decltype(arg), CppCompileGuards>) {
+            append(mCppCompileGuards, arg);
+        } else
+        if constexpr (std::is_same_v<decltype(arg), CppTemplate>) {
+            append(mCppTemplate.cppParameters, arg.cppParameters);
+            append(mCppTemplate.cppSpecializations, arg.cppSpecializations);
+        } else
+        if constexpr (std::is_same_v<decltype(arg), const char*>) {
+            // TODO : Test with non const char*
+            process_ctor_string_argument(arg ? arg : std::string_view { });
+        } else
+        if constexpr (std::is_same_v<decltype(arg), std::string> || std::is_same_v<decltype(arg), std::string_view>) {
+            process_ctor_string_argument(arg);
+        } else
+        if constexpr (std::is_same_v<decltype(arg), CppAccessModifier>) {
+            mCppAccessModififer = arg;
+        } else
+        if constexpr (std::is_base_of_v<CppElement, decltype(arg)>) {
+            mCppElementPtrs.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
+        } else {
+            static_assert(
+                !std::is_same_v<decltype(arg), decltype(arg)>,
+                "TODO : Documentation"
+            );
+        }
+        process_ctor_arguments<ArgIndex + 1>(args);
+    }
+
+    inline void process_ctor_string_argument(std::string_view strView)
+    {
+        if (!strView.empty()) {
+            if (mCppName.empty()) {
+                mCppName = strView;
+            } else {
+                // TODO : mCppDeclarations.push_back(std::string(strView));
+            }
+        }
+    }
+
+    CppCompileGuards mCppCompileGuards;
+    CppTemplate mCppTemplate;
+    std::string mCppName;
+    CppFlags mCppFlags { };
+    std::vector<std::pair<CppAccessModifier, std::unique_ptr<CppElement>>> mCppElementPtrs;
+    CppAccessModifier mCppAccessModififer { Unspecified };
+};
 
 } // namespace cppgen
 } // namespace dst

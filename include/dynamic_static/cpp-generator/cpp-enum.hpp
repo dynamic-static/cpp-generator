@@ -11,38 +11,49 @@
 #pragma once
 
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
-#include "dynamic_static/cpp-generator/cpp-parameter.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
-#include <iosfwd>
 #include <string>
 #include <vector>
 
 namespace dst {
 namespace cppgen {
 
+class CppEnumerator final
+{
+public:
+    // TODO : CppCompileGuard::Collection cppCompileGuards;
+    std::string cppName;  //!< TODO : Documentation
+    std::string cppValue; //!< TODO : Documentation
+};
+
 /**
 TODO : Documentation
 */
-class CppTemplate final
+class CppEnum final
     : public CppElement
 {
 public:
+    class Collection;
+
     /**
     TODO : Documentation
     */
-    CppTemplate(
-        const CppParameter::Collection& cppParameters = { },
-        const std::vector<std::string>& cppSpecializations = { }
-    );
+    enum class Type
+    {
+        Unscoped, //!< TODO : Documentation
+        Scoped,   //!< TODO : Documentation
+    };
 
     /**
     TODO : Documentation
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 
-    CppParameter::Collection cppParameters;      //!< TODO : Documentation
-    std::vector<std::string> cppSpecializations; //!< TODO : Documentation
+    // TODO : CppCompileGuard::Collection cppCompileGuards;
+    Type cppType { Type::Unscoped };           //!< TODO : Documentation
+    std::string cppBaseType;                   //!< TODO : Documentation
+    std::vector<CppEnumerator> cppEnumerators; //!< TODO : Documentation
 };
 
 } // namespace cppgen

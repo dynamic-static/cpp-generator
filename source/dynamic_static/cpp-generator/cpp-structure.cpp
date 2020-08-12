@@ -13,5 +13,10 @@
 namespace dst {
 namespace cppgen {
 
+void CppStructure::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
+{
+
+}
+
 } // namespace cppgen
 } // namespace dst

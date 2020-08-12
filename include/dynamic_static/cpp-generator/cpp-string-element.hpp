@@ -88,7 +88,7 @@ public:
 
     virtual ~CppStringElement() = 0;
 
-    virtual void generate(std::ostream& strm, CppFlags cppFlags) const = 0;
+    virtual void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags) const = 0;
 };
 
 } // namespace cppgen

@@ -13,7 +13,6 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <sstream>
 
 #define dst_cppgen_assert(EXPRESSION) \
 assert(EXPRESSION && "dynamic_static.cpp-generator maintenance required")
@@ -24,22 +23,37 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
+enum CppGenerationFlagBits
+{
+    Declaration    = 1,      //!< TODO : Documentation
+    Definition     = 1 << 1, //!< TODO : Documentation
+    Open           = 1 << 2, //!< TODO : Documentation
+    Close          = 1 << 3, //!< TODO : Documentation
+    Signature      = 1 << 4, //!< TODO : Documentation
+    Specialization = 1 << 5, //!< TODO : Documentation
+};
+
+/**
+TODO : Documentation
+*/
+using CppGenerationFlags = uint32_t;
+
+/**
+TODO : Documentation
+*/
 enum CppFlagBits
 {
-    Inline         = 1,
-    Declaration    = Inline,  //!< TODO : Documentation
-    Definition     = 1 << 1,  //!< TODO : Documentation
-    Static         = 1 << 2,  //!< TODO : Documentation
-    Extern         = 1 << 3,  //!< TODO : Documentation
-    Const          = 1 << 4,  //!< TODO : Documentation
-    Virtual        = 1 << 5,  //!< TODO : Documentation
-    Abstract       = 1 << 6,  //!< TODO : Documentation
-    Override       = 1 << 7,  //!< TODO : Documentation
-    Final          = 1 << 8,  //!< TODO : Documentation
-    Default        = 1 << 9,  //!< TODO : Documentation
-    Delete         = 1 << 10, //!< TODO : Documentation
-    Typedef        = 1 << 11, //!< TODO : Documentation
-    Specialization = 1 << 12, //!< TODO : Documentation
+    Inline   = 1,
+    Static   = 1 << 1,  //!< TODO : Documentation
+    Extern   = 1 << 2,  //!< TODO : Documentation
+    Const    = 1 << 3,  //!< TODO : Documentation
+    Virtual  = 1 << 4,  //!< TODO : Documentation
+    Abstract = 1 << 5,  //!< TODO : Documentation
+    Override = 1 << 6,  //!< TODO : Documentation
+    Final    = 1 << 7,  //!< TODO : Documentation
+    Default  = 1 << 8,  //!< TODO : Documentation
+    Delete   = 1 << 9,  //!< TODO : Documentation
+    Typedef  = 1 << 10, //!< TODO : Documentation
 };
 
 /**
@@ -57,28 +71,6 @@ enum CppAccessModifier
     Protected,   //!< TODO : Documentation
     Private,     //!< TODO : Documentation
 };
-
-/**
-TODO : Documentation
-*/
-class IGeneratable
-{
-public:
-    /**
-    TODO : Documentation
-    */
-    virtual void generate(std::ostream& strm, CppFlags cppFlags) const = 0;
-};
-
-/**
-TODO : Documentation
-*/
-inline std::string to_string(const IGeneratable& generatable, CppFlags flags)
-{
-    std::stringstream strStrm;
-    generatable.generate(strStrm, flags);
-    return strStrm.str();
-}
 
 } // namespace cppgen
 } // namespace dst

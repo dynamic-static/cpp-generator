@@ -26,14 +26,14 @@ CppParameter::CppParameter(
 {
 }
 
-void CppParameter::generate(std::ostream& strm, CppFlags cppFlags) const
+void CppParameter::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
-    if (flags & Declaration || flags & Definition) {
+    if (cppGenerationFlags & Declaration | Definition) {
         if (!cppType.empty()) {
             strm << cppType;
             if (!cppName.empty()) {
                 strm << ' ' << cppName;
-                if (!cppValue.empty() && flags & Declaration) {
+                if (!cppValue.empty() && cppGenerationFlags & Declaration) {
                     strm << " = " << cppValue;
                 }
             }
@@ -41,7 +41,7 @@ void CppParameter::generate(std::ostream& strm, CppFlags cppFlags) const
     }
 }
 
-void CppParameter::Collection::generate(std::ostream& strm, CppFlags cppFlags) const
+void CppParameter::Collection::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
     size_t count = 0;
     for (const auto& element : *this) {
@@ -49,7 +49,7 @@ void CppParameter::Collection::generate(std::ostream& strm, CppFlags cppFlags) c
             if (count++) {
                 strm << ", ";
             }
-            element.generate(strm, flags);
+            element.generate(strm, cppGenerationFlags);
         }
     }
 }

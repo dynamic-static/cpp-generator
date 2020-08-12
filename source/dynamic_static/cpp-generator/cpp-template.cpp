@@ -25,10 +25,10 @@ CppTemplate::CppTemplate(
 {
 }
 
-void CppTemplate::generate(std::ostream& strm, CppFlags cppFlags) const
+void CppTemplate::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
-    if (flags & Declaration || flags & Definition) {
-        if (flags & Specialization && !cppSpecializations.empty()) {
+    if (cppGenerationFlags & Declaration | Definition) {
+        if (cppGenerationFlags & Specialization && !cppSpecializations.empty()) {
             size_t count = 0;
             for (const auto& cppSpecialization : cppSpecializations) {
                 if (!cppSpecialization.empty()) {
@@ -39,8 +39,8 @@ void CppTemplate::generate(std::ostream& strm, CppFlags cppFlags) const
                 strm << '>';
             }
         } else {
-            if (flags & Declaration || flags & Definition && !cppSpecializations.empty()) {
-                auto str = to_string(cppParameters, flags);
+            if (cppGenerationFlags & Declaration || cppGenerationFlags & Definition && !cppSpecializations.empty()) {
+                auto str = to_string(cppParameters, cppGenerationFlags);
                 if (!str.empty()) {
                     strm << "template <" << str << '>';
                 }

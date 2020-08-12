@@ -13,6 +13,7 @@
 #include "dynamic_static/cpp-generator/defines.hpp"
 
 #include <iosfwd>
+#include <string_view>
 #include <vector>
 
 namespace dst {
@@ -21,9 +22,33 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
+class CppElement
+{
+public:
+    template <typename CppElementType>
+    class Collection;
+
+    /**
+    TODO : Documentation
+    */
+    virtual ~CppElement() = 0;
+
+    /**
+    TODO : Documentation
+    */
+    virtual void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const = 0;
+};
+
+inline CppElement::~CppElement()
+{
+}
+
+/**
+TODO : Documentation
+*/
 template <typename CppElementType>
-class CppElementCollection
-    : public IGeneratable
+class CppElement::Collection
+    : public CppElement
     , private std::vector<CppElementType>
 {
 public:
@@ -74,43 +99,62 @@ public:
     using base_type::resize;
     using base_type::swap;
 
-    virtual ~CppElementCollection() = 0;
+    virtual ~Collection() = 0;
 
-    inline friend bool operator==(const CppElementCollection<CppElementType>& lhs, const CppElementCollection<CppElementType>& rhs)
+    inline operator const base_type&() const
+    {
+        return (const base_type&)*this;
+    }
+
+    inline friend bool operator==(const CppElement::Collection<CppElementType>& lhs, const CppElement::Collection<CppElementType>& rhs)
     {
         return (const base_type&)lhs == (const base_type&)rhs;
     }
 
-    inline friend bool operator!=(const CppElementCollection<CppElementType>& lhs, const CppElementCollection<CppElementType>& rhs)
+    inline friend bool operator!=(const CppElement::Collection<CppElementType>& lhs, const CppElement::Collection<CppElementType>& rhs)
     {
         return (const base_type&)lhs != (const base_type&)rhs;
     }
 
-    inline friend bool operator<(const CppElementCollection<CppElementType>& lhs, const CppElementCollection<CppElementType>& rhs)
+    inline friend bool operator<(const CppElement::Collection<CppElementType>& lhs, const CppElement::Collection<CppElementType>& rhs)
     {
         return (const base_type&)lhs < (const base_type&)rhs;
     }
 
-    inline friend bool operator>(const CppElementCollection<CppElementType>& lhs, const CppElementCollection<CppElementType>& rhs)
+    inline friend bool operator>(const CppElement::Collection<CppElementType>& lhs, const CppElement::Collection<CppElementType>& rhs)
     {
         return (const base_type&)lhs > (const base_type&)rhs;
     }
 
-    inline friend bool operator<=(const CppElementCollection<CppElementType>& lhs, const CppElementCollection<CppElementType>& rhs)
+    inline friend bool operator<=(const CppElement::Collection<CppElementType>& lhs, const CppElement::Collection<CppElementType>& rhs)
     {
         return (const base_type&)lhs <= (const base_type&)rhs;
     }
 
-    inline friend bool operator>=(const CppElementCollection<CppElementType>& lhs, const CppElementCollection<CppElementType>& rhs)
+    inline friend bool operator>=(const CppElement::Collection<CppElementType>& lhs, const CppElement::Collection<CppElementType>& rhs)
     {
         return (const base_type&)lhs >= (const base_type&)rhs;
     }
 };
 
 template <typename CppElementType>
-inline CppElementCollection<CppElementType>::~CppElementCollection()
+inline CppElement::Collection<CppElementType>::~Collection()
 {
 }
+
+/**
+TODO : Documentation
+*/
+template <typename CppElementCollectionType>
+inline void append(CppElementCollectionType& lhs, const CppElementCollectionType& rhs)
+{
+    lhs.insert(lhs.begin(), rhs.begin(), rhs.end());
+}
+
+/**
+TODO : Documentation
+*/
+std::string to_string(const CppElement& cppElement, CppFlags flags, std::string_view cppEnclosingType = { });
 
 } // namespace cppgen
 } // namespace dst

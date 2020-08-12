@@ -10,51 +10,65 @@
 
 #include "dynamic_static/cpp-generator/cpp-function.hpp"
 
+#include <ostream>
+
 namespace dst {
 namespace cppgen {
 
-CppFunction::CppFunction(
-    CppAccessModifier cppAccessModifier = { Unspecified },
-    const std::vector<std::string>& cppCompileGuards = { },
-    const CppTemplate& cppTemplate = { },
-    std::string_view cppReturnType = { },
-    std::string_view cppName = { },
-    const CppParameter::Collection& cppParameters = { },
-    CppFlags cppFlags = { },
-    CppSourceBlock cppSourceBlock = { }
-)
-    : cppAccessModifier { cppAccessModifier }
-    , cppCompileGuards { cppCompileGuards }
-    , cppTemplate { cppTemplate }
-    , cppReturnType { cppReturnType }
-    , cppName { cppName }
-    , cppParameters { cppParameters }
-    , cppFlags { cppFlags }
-    , cppSourceBlock { cppSourceBlock }
+void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
 {
+    if (!cppReturnType.empty() && !cppName.empty()) {
+        // if (cppFlags & Inline && cppGenerationFlags & Declaration || !(cppFlags & Inline) && ) {
+        //     cppGenerationFlags |= Declaration | Definition;
+        // }
+        // TODO : Open CppCompileGuards...
+        cppTemplate.generate(strm, cppGenerationFlags);
+        if (!cppTemplate.cppParameters.empty()) {
+            strm << std::endl;
+        }
+        if (cppFlags & Inline) {
+            strm << "inline ";
+        }
+        strm << (cppFlags & Static  ? "static "  : std::string());
+        strm << (cppFlags & Extern  ? "extern "  : std::string());
+        strm << (cppFlags & Virtual ? "virtual " : std::string());
+        strm << cppReturnType << ' ';
+        if (!cppEnclosingType.empty()) {
+            strm << cppEnclosingType << "::";
+        }
+        strm << cppName;
+        cppTemplate.generate(strm, cppGenerationFlags | Specialization);
+        strm << '(';
+        cppParameters.generate(strm, cppGenerationFlags);
+        strm << ')';
+        strm << (cppFlags & Const    ? " const"     : std::string());
+        strm << (cppFlags & Override ? " override"  : std::string());
+        strm << (cppFlags & Final    ? " final"     : std::string());
+        strm << (cppFlags & Abstract ? " = 0"       : std::string());
+        strm << (cppFlags & Default  ? " = default" : std::string());
+        strm << (cppFlags & Delete   ? " = delete"  : std::string());
+        if (cppGenerationFlags & Definition) {
+            strm << std::endl;
+            strm << '{' << std::endl;
+            strm << cppSourceBlock;
+            strm << '}';
+        } else {
+            strm << ';';
+        }
+        strm << std::endl;
+        // TODO : Close CppCompileGuards...
+    }
 }
 
-CppFunction::CppFunction(
-    std::string_view cppReturnType = { },
-    std::string_view cppName = { },
-    const CppParameter::Collection& cppParameters = { },
-    CppSourceBlock cppSourceBlock = { }
-)
-    : cppReturnType { cppReturnType }
-    , cppName { cppName }
-    , cppParameters { cppParameters }
-    , cppSourceBlock { cppSourceBlock }
+void CppFunction::Collection::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
 {
-}
-
-void CppFunction::generate(std::ostream& strm, CppFlags cppFlags) const
-{
-
-}
-
-void CppFunction::Collection::generate(std::ostream& strm, CppFlags cppFlags) const
-{
-
+    size_t count = 0;
+    for (const auto& element : *this) {
+        if (cppGenerationFlags & Definition || count++) {
+            strm << std::endl;
+        }
+        element.generate(strm, cppGenerationFlags, cppEnclosingType);
+    }
 }
 
 } // namespace cppgen

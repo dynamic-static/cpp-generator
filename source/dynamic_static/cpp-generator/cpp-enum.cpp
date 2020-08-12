@@ -8,12 +8,12 @@
 ==========================================
 */
 
-#include "dynamic_static/cpp-generator/cpp-variable.hpp"
+#include "dynamic_static/cpp-generator/cpp-enum.hpp"
 
 namespace dst {
 namespace cppgen {
 
-void CppVariable::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
+void CppEnum::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
 
 }

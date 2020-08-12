@@ -25,6 +25,7 @@ set(includePath "${includeDirectory}/dynamic_static/cpp-generator/")
 set(includeFiles
     "${includePath}/ascii-grid.hpp"
     "${includePath}/cpp-compile-guard.hpp"
+    "${includePath}/cpp-declaration.hpp"
     "${includePath}/cpp-element.hpp"
     "${includePath}/cpp-enum.hpp"
     "${includePath}/cpp-file.hpp"
@@ -47,6 +48,7 @@ set(sourcePath "${sourceDirectory}/dynamic_static/cpp-generator/")
 set(sourceFiles
 
     "${sourcePath}/cpp-compile-guard.cpp"
+    "${sourcePath}/cpp-declaration.cpp"
     "${sourcePath}/cpp-element.cpp"
     "${sourcePath}/cpp-enum.cpp"
     "${sourcePath}/cpp-file.cpp"

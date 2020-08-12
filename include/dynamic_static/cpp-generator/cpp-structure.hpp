@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "dynamic_static/cpp-generator/cpp-compile-guard.hpp"
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
 #include "dynamic_static/cpp-generator/cpp-enum.hpp"
 #include "dynamic_static/cpp-generator/cpp-function.hpp"
@@ -61,7 +62,10 @@ private:
     inline typename std::enable_if<ArgIndex < sizeof...(Args), void>::type process_ctor_arguments(const std::tuple<const Args&...>& args)
     {
         auto arg = std::get<ArgIndex>(args);
-        if constexpr (std::is_same_v<decltype(arg), CppCompileGuards>) {
+        if constexpr (std::is_same_v<decltype(arg), CppCompileGuard>) {
+            mCppCompileGuards.push_back(arg);
+        } else
+        if constexpr (std::is_same_v<decltype(arg), CppCompileGuard::Collection>) {
             append(mCppCompileGuards, arg);
         } else
         if constexpr (std::is_same_v<decltype(arg), CppTemplate>) {
@@ -78,7 +82,7 @@ private:
         if constexpr (std::is_same_v<decltype(arg), CppAccessModifier>) {
             mCppAccessModififer = arg;
         } else
-        if constexpr (std::is_base_of_v<CppElement, decltype(arg)>) {
+        if constexpr (std::is_base_of_v<decltype(arg), CppElement>) {
             mCppElementPtrs.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
         } else {
             static_assert(

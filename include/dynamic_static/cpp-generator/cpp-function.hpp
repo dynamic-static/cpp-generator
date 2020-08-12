@@ -49,13 +49,13 @@ public:
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
 
-    CppCompileGuards cppCompileGuards; //!< TODO : Documentation
-    CppTemplate cppTemplate;           //!< TODO : Documentation
-    std::string cppReturnType;         //!< TODO : Documentation
-    std::string cppName;               //!< TODO : Documentation
-    CppParameters cppParameters;       //!< TODO : Documentation
-    CppFlags cppFlags { };             //!< TODO : Documentation
-    CppSourceBlock cppSourceBlock;     //!< TODO : Documentation
+    CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
+    CppTemplate cppTemplate;                      //!< TODO : Documentation
+    std::string cppReturnType;                    //!< TODO : Documentation
+    std::string cppName;                          //!< TODO : Documentation
+    CppParameter::Collection cppParameters;       //!< TODO : Documentation
+    CppFlags cppFlags { };                        //!< TODO : Documentation
+    CppSourceBlock cppSourceBlock;                //!< TODO : Documentation
 
 private:
     template <size_t ArgIndex = 0, typename ...Args>
@@ -67,7 +67,10 @@ private:
     inline typename std::enable_if<ArgIndex < sizeof...(Args), void>::type process_ctor_arguments(const std::tuple<const Args&...>& args)
     {
         auto arg = std::get<ArgIndex>(args);
-        if constexpr (std::is_same_v<decltype(arg), CppCompileGuards>) {
+        if constexpr (std::is_same_v<decltype(arg), CppCompileGuard>) {
+            cppCompileGuards.push_back(arg);
+        } else
+        if constexpr (std::is_same_v<decltype(arg), CppCompileGuard::Collection> || std::is_same_v<decltype(arg), CppCompileGuard::Collection::base_type>) {
             append(cppCompileGuards, arg);
         } else
         if constexpr (std::is_same_v<decltype(arg), CppTemplate>) {
@@ -84,7 +87,7 @@ private:
         if constexpr (std::is_same_v<decltype(arg), CppParameter>) {
             cppParameters.push_back(arg);
         } else
-        if constexpr (std::is_same_v<decltype(arg), CppParameters>) {
+        if constexpr (std::is_same_v<decltype(arg), CppParameter::Collection> || std::is_same_v<decltype(arg), CppParameter::Collection::base_type>) {
             append(cppParameters, arg);
         } else
         if constexpr (std::is_same_v<decltype(arg), CppFlagBits> || std::is_integral_v<decltype(arg)>) {
@@ -128,6 +131,11 @@ public:
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
 };
+
+/**
+TODO : Documentation
+*/
+using CppFunctions = CppFunction::Collection;
 
 } // namespace cppgen
 } // namespace dst

@@ -147,10 +147,10 @@ inline CppElement::Collection<CppElementType>::~Collection()
 /**
 TODO : Documentation
 */
-template <typename CppElementCollectionType>
-inline void append(CppElementCollectionType& lhs, const CppElementCollectionType& rhs)
+template <typename LhsCppElementCollectionType, typename RhsCppElementCollectionType>
+inline void append(LhsCppElementCollectionType& lhs, const RhsCppElementCollectionType& rhs)
 {
-    lhs.insert(lhs.begin(), rhs.begin(), rhs.end());
+    lhs.insert(lhs.begin(), (const LhsCppElementCollectionType&)rhs.begin(), (const LhsCppElementCollectionType&)rhs.end());
 }
 
 /**

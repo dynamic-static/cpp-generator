@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "dynamic_static/cpp-generator/cpp-compile-guard.hpp"
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
@@ -27,12 +28,48 @@ class CppDeclaration final
 {
 public:
     class Collection;
-    using CppStringElement::CppStringElement;
 
     /**
     TODO : Documentation
     */
+    CppDeclaration() = default;
+
+    /**
+    TODO : Documentation
+    */
+    template <typename T>
+    inline CppDeclaration(const T& cppDeclaration)
+        : CppStringElement(cppDeclaration)
+    {
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename T>
+    inline CppDeclaration(const CppCompileGuard& cppCompileGuard, const T& cppDeclaration)
+        : CppStringElement(cppDeclaration)
+        , cppCompileGuards { cppCompileGuard }
+    {
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename T>
+    inline CppDeclaration(const CppCompileGuard::Collection& cppCompileGuards, const T& cppDeclaration)
+        : CppStringElement(cppDeclaration)
+        , cppCompileGuards { cppCompileGuards }
+    {
+    }
+
+    /**
+    TODO : Documentation
+        @note Supports CppGenerationFlagBits [Declaration]
+    */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
+
+    CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
 };
 
 /**
@@ -46,6 +83,7 @@ public:
 
     /**
     TODO : Documentation
+        @note Supports CppGenerationFlagBits [Declaration]
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 };

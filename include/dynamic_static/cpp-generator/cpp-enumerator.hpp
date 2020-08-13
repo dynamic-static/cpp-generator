@@ -12,7 +12,6 @@
 
 #include "dynamic_static/cpp-generator/cpp-compile-guard.hpp"
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
-#include "dynamic_static/cpp-generator/cpp-enumerator.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
 #include <string>
@@ -24,7 +23,7 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
-class CppEnum final
+class CppEnumerator final
     : public CppElement
 {
 public:
@@ -33,31 +32,21 @@ public:
     /**
     TODO : Documentation
     */
-    enum class Type
-    {
-        Unscoped, //!< TODO : Documentation
-        Scoped,   //!< TODO : Documentation
-    };
-
-    /**
-    TODO : Documentation
-    */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 
     CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
-    Type cppType { Type::Unscoped };              //!< TODO : Documentation
-    std::string cppBaseType;                      //!< TODO : Documentation
-    CppEnumerator::Collection cppEnumerators;     //!< TODO : Documentation
+    std::string cppName;                          //!< TODO : Documentation
+    std::string cppValue;                         //!< TODO : Documentation
 };
 
 /**
 TODO : Documentation
 */
-class CppEnum::Collection final
-    : public CppElement::Collection<CppEnum>
+class CppEnumerator::Collection final
+    : public CppElement::Collection<CppEnumerator>
 {
 public:
-    using CppElement::Collection<CppEnum>::Collection;
+    using CppElement::Collection<CppEnumerator>::Collection;
 
     /**
     TODO : Documentation

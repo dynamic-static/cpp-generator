@@ -31,6 +31,7 @@ public:
 
     /**
     TODO : Documentation
+        @note Supports CppGenerationFlagBits [Open || Close]
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 };
@@ -46,6 +47,7 @@ public:
 
     /**
     TODO : Documentation
+        @note Supports CppGenerationFlagBits [Open || Close]
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 };

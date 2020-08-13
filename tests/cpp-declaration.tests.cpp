@@ -40,6 +40,43 @@ TEST_CASE("Populated CppDeclaration", "[CppDeclaration]")
 /**
 TODO : Documentation
 */
+TEST_CASE("Populated CppDeclaration with a CppCompileGuard", "[CppDeclaration]")
+{
+    CppDeclaration cppDeclaration {
+        "DYNAMIC_STATIC_FEATURE_ENABLED",
+        "using a = b;"
+    };
+    CHECK(to_string(cppDeclaration, Declaration) ==
+R"(#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+using a = b;
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("Populated CppDeclaration with a CppCompileGuard::Collection", "[CppDeclaration]")
+{
+    CppDeclaration cppDeclaration {
+        CppCompileGuards {
+            "DYNAMIC_STATIC_PLATFORM",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
+        },
+        "using a = b;"
+    };
+    CHECK(to_string(cppDeclaration, Declaration) ==
+R"(#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+using a = b;
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+)");
+}
+
+/**
+TODO : Documentation
+*/
 TEST_CASE("Empty CppDeclaration::Collection", "[CppDeclaration::Collection]")
 {
     CppDeclaration::Collection cppDeclarations;
@@ -60,17 +97,17 @@ TODO : Documentation
 */
 TEST_CASE("CppDeclaration::Collection with multiple CppDeclarations", "[CppDeclaration::Collection]")
 {
-    CppDeclaration::Collection cppCompileGuards;
+    CppDeclaration::Collection cppDeclarations;
     SECTION("TODO")
     {
-        cppCompileGuards = {
+        cppDeclarations = {
             "using a = b;",
             "using x = y;",
         };
     }
     SECTION("TODO")
     {
-        cppCompileGuards = {
+        cppDeclarations = {
             "",
             "using a = b;",
             std::string(),
@@ -79,9 +116,41 @@ TEST_CASE("CppDeclaration::Collection with multiple CppDeclarations", "[CppDecla
             std::string_view(),
         };
     }
-        CHECK(to_string(cppCompileGuards, Declaration) ==
+        CHECK(to_string(cppDeclarations, Declaration) ==
 R"(using a = b;
 using x = y;
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppDeclaration::Collection with multiple CppDeclarations with CppCompileGuards", "[CppDeclaration::Collection]")
+{
+    CppDeclaration::Collection cppDeclarations {
+        "using a = b;",
+        {
+            CppCompileGuard { "DYNAMIC_STATIC_OPTIONS_ENABLED" },
+            "using Flags = uint32_t;"
+        },
+        {
+            CppCompileGuards {
+                "DYNAMIC_STATIC_PLATFORM",
+                "DYNAMIC_STATIC_FEATURE_ENABLED",
+            },
+            "using x = y;",
+        }
+    };
+    CHECK(to_string(cppDeclarations, Declaration) ==
+R"(using a = b;
+#ifdef DYNAMIC_STATIC_OPTIONS_ENABLED
+using Flags = uint32_t;
+#endif // DYNAMIC_STATIC_OPTIONS_ENABLED
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+using x = y;
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
 )");
 }
 

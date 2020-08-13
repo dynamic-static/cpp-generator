@@ -231,6 +231,13 @@ public:
     using base_type::find_last_of;
     using base_type::find_last_not_of;
 
+    CppStringElement(const base_type& other);
+    CppStringElement(const std::string_view& other);
+    CppStringElement(base_type&& other);
+    CppStringElement& operator=(const base_type& other);
+    CppStringElement& operator=(const std::string_view& other);
+    CppStringElement& operator=(base_type&& other);
+
     virtual ~CppStringElement() = 0;
 
     template <typename T>

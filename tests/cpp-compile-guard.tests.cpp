@@ -21,91 +21,86 @@ namespace tests {
 /**
 TODO : Documentation
 */
-TEST_CASE("CppCompileGuard", "[CppCompileGuard]")
+TEST_CASE("Empty CppCompileGuard", "[CppCompileGuard]")
 {
-    SECTION("TODO")
-    {
-        CppCompileGuard cppCompileGuard;
-        CHECK(to_string(cppCompileGuard, Open) == std::string());
-        CHECK(to_string(cppCompileGuard, Close) == std::string());
-    }
-    SECTION("TODO")
-    {
-        CppCompileGuard cppCompileGuard { "ENABLE_FEATURE" };
-        CHECK(to_string(cppCompileGuard, Open) == "#ifdef ENABLE_FEATURE\n");
-        CHECK(to_string(cppCompileGuard, Close) == "#endif // ENABLE_FEATURE\n");
-    }
+    CppCompileGuard cppCompileGuard;
+    CHECK(to_string(cppCompileGuard, Open) == std::string());
+    CHECK(to_string(cppCompileGuard, Close) == std::string());
 }
 
 /**
 TODO : Documentation
 */
-TEST_CASE("CppCompileGuard::Collection", "[CppCompileGuard::Collection]")
+TEST_CASE("Populated CppCompileGuard", "[CppCompileGuard]")
 {
+    CppCompileGuard cppCompileGuard { "DYNAMIC_STATIC_FEATURE_ENABLED" };
+    CHECK(to_string(cppCompileGuard, Open) == "#ifdef DYNAMIC_STATIC_FEATURE_ENABLED\n");
+    CHECK(to_string(cppCompileGuard, Close) == "#endif // DYNAMIC_STATIC_FEATURE_ENABLED\n");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("Empty CppCompileGuard::Collection", "[CppCompileGuard::Collection]")
+{
+    CppCompileGuard::Collection cppCompileGuards;
+    CHECK(to_string(cppCompileGuards, Open) == std::string());
+    CHECK(to_string(cppCompileGuards, Close) == std::string());
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppCompileGuard::Collection with single CppCompileGuard", "[CppCompileGuard::Collection]")
+{
+    CppCompileGuard::Collection cppCompileGuards { "DYNAMIC_STATIC_FEATURE_ENABLED" };
+    CHECK(to_string(cppCompileGuards, Open) == "#ifdef DYNAMIC_STATIC_FEATURE_ENABLED\n");
+    CHECK(to_string(cppCompileGuards, Close) == "#endif // DYNAMIC_STATIC_FEATURE_ENABLED\n");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppCompileGuard::Collection with multiple CppCompileGuards", "[CppCompileGuard::Collection]")
+{
+    CppCompileGuard::Collection cppCompileGuards;
     SECTION("TODO")
     {
-        CppCompileGuard::Collection cppCompileGuards;
-        CHECK(to_string(cppCompileGuards, Open) == std::string());
-        CHECK(to_string(cppCompileGuards, Close) == std::string());
-    }
-    SECTION("TODO")
-    {
-        CppCompileGuard::Collection cppCompileGuards { "ENABLE_FEATURE" };
-        CHECK(to_string(cppCompileGuards, Open) == "#ifdef ENABLE_FEATURE\n");
-        CHECK(to_string(cppCompileGuards, Close) == "#endif // ENABLE_FEATURE\n");
-    }
-    SECTION("TODO")
-    {
-        CppCompileGuard::Collection cppCompileGuards {
-            "ENABLE_PLATFORM",
-            "ENABLE_FEATURE",
+        cppCompileGuards = {
+            "DYNAMIC_STATIC_PLATFORM_ENABLED",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
         };
+    }
+    SECTION("TODO")
+    {
+        cppCompileGuards = {
+            { },
+            "DYNAMIC_STATIC_PLATFORM_ENABLED",
+            std::string_view(),
+            "",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
+            std::string(),
+        };
+    }
+    SECTION("TODO")
+    {
+        cppCompileGuards = {
+            "DYNAMIC_STATIC_PLATFORM_ENABLED",
+            "DYNAMIC_STATIC_PLATFORM_ENABLED",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
+            "DYNAMIC_STATIC_PLATFORM_ENABLED",
+        };
+    }
         CHECK(to_string(cppCompileGuards, Open) ==
-R"(#ifdef ENABLE_PLATFORM
-#ifdef ENABLE_FEATURE
+R"(#ifdef DYNAMIC_STATIC_PLATFORM_ENABLED
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
 )");
         CHECK(to_string(cppCompileGuards, Close) ==
-R"(#endif // ENABLE_FEATURE
-#endif // ENABLE_PLATFORM
+R"(#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM_ENABLED
 )");
-    }
-    SECTION("TODO")
-    {
-        CppCompileGuard::Collection cppCompileGuards {
-            { },
-            "ENABLE_PLATFORM",
-            { },
-            "ENABLE_FEATURE",
-            { },
-        };
-        CHECK(to_string(cppCompileGuards, Open) ==
-R"(#ifdef ENABLE_PLATFORM
-#ifdef ENABLE_FEATURE
-)");
-        CHECK(to_string(cppCompileGuards, Close) ==
-R"(#endif // ENABLE_FEATURE
-#endif // ENABLE_PLATFORM
-)");
-    }
-    SECTION("TODO")
-    {
-        CppCompileGuard::Collection cppCompileGuards {
-            "ENABLE_PLATFORM",
-            "ENABLE_PLATFORM",
-            "ENABLE_FEATURE",
-            "ENABLE_FEATURE",
-            "ENABLE_FEATURE",
-            "ENABLE_PLATFORM",
-        };
-        CHECK(to_string(cppCompileGuards, Open) ==
-R"(#ifdef ENABLE_PLATFORM
-#ifdef ENABLE_FEATURE
-)");
-        CHECK(to_string(cppCompileGuards, Close) ==
-R"(#endif // ENABLE_FEATURE
-#endif // ENABLE_PLATFORM
-)");
-    }
 }
 
 } // namespace tests

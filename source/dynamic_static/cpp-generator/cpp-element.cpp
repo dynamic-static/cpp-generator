@@ -13,6 +13,7 @@
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
 
 #include <sstream>
+#include <utility>
 
 namespace dst {
 namespace cppgen {
@@ -26,6 +27,39 @@ std::string to_string(const CppElement& cppElement, CppFlags flags, std::string_
     std::stringstream strStrm;
     cppElement.generate(strStrm, flags, cppEnclosingType);
     return strStrm.str();
+}
+
+CppStringElement::CppStringElement(const base_type& other)
+    : base_type(other)
+{
+}
+
+CppStringElement::CppStringElement(const std::string_view& other)
+    : base_type(other)
+{
+}
+
+CppStringElement::CppStringElement(base_type&& other)
+    : base_type(std::move(other))
+{
+}
+
+CppStringElement& CppStringElement::operator=(const base_type& other)
+{
+    base_type::operator=(other);
+    return *this;
+}
+
+CppStringElement& CppStringElement::operator=(const std::string_view& other)
+{
+    base_type::operator=(other);
+    return *this;
+}
+
+CppStringElement& CppStringElement::operator=(base_type&& other)
+{
+    base_type::operator=(std::move(other));
+    return *this;
 }
 
 CppStringElement::~CppStringElement()

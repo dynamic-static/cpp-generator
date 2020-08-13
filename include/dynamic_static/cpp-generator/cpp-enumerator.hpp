@@ -81,5 +81,10 @@ public:
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 };
 
+/**
+TODO : Documentation
+*/
+using CppEnumerators = CppEnumerator::Collection;
+
 } // namespace cppgen
 } // namespace dst

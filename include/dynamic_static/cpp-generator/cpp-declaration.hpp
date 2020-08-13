@@ -14,9 +14,6 @@
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
-#include <iosfwd>
-#include <string_view>
-
 namespace dst {
 namespace cppgen {
 

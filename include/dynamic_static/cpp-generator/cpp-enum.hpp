@@ -16,7 +16,6 @@
 #include "dynamic_static/cpp-generator/defines.hpp"
 
 #include <string>
-#include <vector>
 
 namespace dst {
 namespace cppgen {

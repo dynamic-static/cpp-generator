@@ -89,6 +89,7 @@ set(testsSourceFiles
     "${testsSourcePath}/cpp-compile-guard.tests.cpp"
     "${testsSourcePath}/cpp-declaration.tests.cpp"
     "${testsSourcePath}/cpp-enum.tests.cpp"
+    "${testsSourcePath}/cpp-enumerator.tests.cpp"
     "${testsSourcePath}/cpp-function.tests.cpp"
     "${testsSourcePath}/cpp-namespace.tests.cpp"
     "${testsSourcePath}/cpp-parameter.tests.cpp"

@@ -14,7 +14,6 @@
 #include "dynamic_static/cpp-generator/cpp-parameter.hpp"
 #include "dynamic_static/cpp-generator/defines.hpp"
 
-#include <iosfwd>
 #include <string>
 #include <vector>
 

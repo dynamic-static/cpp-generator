@@ -28,7 +28,7 @@ TEST_CASE("Empty CppDeclaration", "[CppDeclaration]")
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppDeclaration", "[CppDeclaration]")
+TEST_CASE("CppDeclaration", "[CppDeclaration]")
 {
     CppDeclaration cppDeclaration { "using a = b;" };
     CHECK(to_string(cppDeclaration, Declaration) == "using a = b;\n");
@@ -37,7 +37,7 @@ TEST_CASE("Populated CppDeclaration", "[CppDeclaration]")
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppDeclaration with CppCompileGuard", "[CppDeclaration]")
+TEST_CASE("CppDeclaration single CppCompileGuard", "[CppDeclaration]")
 {
     CppDeclaration cppDeclaration {
         CppCompileGuards { "DYNAMIC_STATIC_FEATURE_ENABLED" },
@@ -53,7 +53,7 @@ using a = b;
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppDeclaration with CppCompileGuard::Collection", "[CppDeclaration]")
+TEST_CASE("CppDeclaration multiple CppCompileGuards", "[CppDeclaration]")
 {
     CppDeclaration cppDeclaration {
         CppCompileGuards {
@@ -83,7 +83,7 @@ TEST_CASE("Empty CppDeclaration::Collection", "[CppDeclaration::Collection]")
 /**
 TODO : Documentation
 */
-TEST_CASE("CppDeclaration::Collection with single CppDeclaration", "[CppDeclaration::Collection]")
+TEST_CASE("CppDeclaration::Collection single CppDeclaration", "[CppDeclaration::Collection]")
 {
     CppDeclaration::Collection cppDeclarations { "using a = b;" };
     CHECK(to_string(cppDeclarations, Declaration) == "using a = b;\n");
@@ -92,7 +92,7 @@ TEST_CASE("CppDeclaration::Collection with single CppDeclaration", "[CppDeclarat
 /**
 TODO : Documentation
 */
-TEST_CASE("CppDeclaration::Collection with multiple CppDeclarations", "[CppDeclaration::Collection]")
+TEST_CASE("CppDeclaration::Collection multiple CppDeclarations", "[CppDeclaration::Collection]")
 {
     CppDeclaration::Collection cppDeclarations;
     SECTION("TODO")
@@ -122,7 +122,7 @@ using x = y;
 /**
 TODO : Documentation
 */
-TEST_CASE("CppDeclaration::Collection with multiple CppDeclarations with CppCompileGuards", "[CppDeclaration::Collection]")
+TEST_CASE("CppDeclaration::Collection multiple CppDeclarations with CppCompileGuards", "[CppDeclaration::Collection]")
 {
     CppDeclaration::Collection cppDeclarations {
         "using a = b;",

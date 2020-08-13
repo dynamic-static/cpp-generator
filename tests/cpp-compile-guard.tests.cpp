@@ -29,7 +29,7 @@ TEST_CASE("Empty CppCompileGuard", "[CppCompileGuard]")
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppCompileGuard", "[CppCompileGuard]")
+TEST_CASE("CppCompileGuard", "[CppCompileGuard]")
 {
     CppCompileGuard cppCompileGuard { "DYNAMIC_STATIC_FEATURE_ENABLED" };
     CHECK(to_string(cppCompileGuard, Open) == "#ifdef DYNAMIC_STATIC_FEATURE_ENABLED\n");
@@ -49,7 +49,7 @@ TEST_CASE("Empty CppCompileGuard::Collection", "[CppCompileGuard::Collection]")
 /**
 TODO : Documentation
 */
-TEST_CASE("CppCompileGuard::Collection with single CppCompileGuard", "[CppCompileGuard::Collection]")
+TEST_CASE("CppCompileGuard::Collection single CppCompileGuard", "[CppCompileGuard::Collection]")
 {
     CppCompileGuard::Collection cppCompileGuards { "DYNAMIC_STATIC_FEATURE_ENABLED" };
     CHECK(to_string(cppCompileGuards, Open) == "#ifdef DYNAMIC_STATIC_FEATURE_ENABLED\n");
@@ -59,7 +59,7 @@ TEST_CASE("CppCompileGuard::Collection with single CppCompileGuard", "[CppCompil
 /**
 TODO : Documentation
 */
-TEST_CASE("CppCompileGuard::Collection with multiple CppCompileGuards", "[CppCompileGuard::Collection]")
+TEST_CASE("CppCompileGuard::Collection multiple CppCompileGuards", "[CppCompileGuard::Collection]")
 {
     CppCompileGuard::Collection cppCompileGuards;
     SECTION("TODO")

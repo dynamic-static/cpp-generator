@@ -29,7 +29,7 @@ TEST_CASE("Anonymous CppNamespace", "[CppNamespace]")
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppNamespace", "[CppNamespace]")
+TEST_CASE("CppNamespace", "[CppNamespace]")
 {
     CppNamespace cppNamespace { "dst" };
     CHECK(to_string(cppNamespace, Open) == "namespace dst {\n");
@@ -49,7 +49,7 @@ TEST_CASE("Empty CppNamespace::Collection", "[CppNamespace::Collection]")
 /**
 TODO : Documentation
 */
-TEST_CASE("CppNamespace::Collection with single CppNamespace", "[CppNamespace::Collection]")
+TEST_CASE("CppNamespace::Collection single CppNamespace", "[CppNamespace::Collection]")
 {
     CppNamespace::Collection cppNamespaces { "dst" };
     CHECK(to_string(cppNamespaces, Open) == "namespace dst {\n");
@@ -59,7 +59,7 @@ TEST_CASE("CppNamespace::Collection with single CppNamespace", "[CppNamespace::C
 /**
 TODO : Documentation
 */
-TEST_CASE("CppNamespace::Collection with multiple CppNamespaces", "[CppNamespace::Collection]")
+TEST_CASE("CppNamespace::Collection multiple CppNamespaces", "[CppNamespace::Collection]")
 {
     SECTION("TODO")
     {

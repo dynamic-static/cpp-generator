@@ -47,7 +47,7 @@ TEST_CASE("CppParameter", "[CppParameter]")
 /**
 TODO : Documentation
 */
-TEST_CASE("CppParameters", "[CppParameters]")
+TEST_CASE("CppParameter::Collection", "[CppParameter::Collection]")
 {
     SECTION("TODO")
     {

@@ -103,8 +103,17 @@ public:
 
     virtual ~Collection() = 0;
 
-    inline operator const base_type&() const
+    template <typename T>
+    const std::string& as() const
     {
+        static_assert(std::is_same_v<T, base_type>, "TODO : Documentation");
+        return (const base_type&)*this;
+    }
+
+    template <typename T>
+    std::string& as()
+    {
+        static_assert(std::is_same_v<T, base_type>, "TODO : Documentation");
         return (const base_type&)*this;
     }
 
@@ -223,7 +232,21 @@ public:
     using base_type::find_last_not_of;
 
     virtual ~CppStringElement() = 0;
-    operator const base_type& () const;
+
+    template <typename T>
+    const std::string& as() const
+    {
+        static_assert(std::is_same_v<T, base_type>, "TODO : Documentation");
+        return (const base_type&)*this;
+    }
+
+    template <typename T>
+    std::string& as()
+    {
+        static_assert(std::is_same_v<T, base_type>, "TODO : Documentation");
+        return (const base_type&)*this;
+    }
+
     friend bool operator==(const CppStringElement& lhs, const CppStringElement& rhs);
     friend bool operator!=(const CppStringElement& lhs, const CppStringElement& rhs);
     friend bool operator<(const CppStringElement& lhs, const CppStringElement& rhs);

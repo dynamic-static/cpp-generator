@@ -32,11 +32,6 @@ CppStringElement::~CppStringElement()
 {
 }
 
-CppStringElement::operator const base_type& () const
-{
-    return (const base_type&)*this;
-}
-
 bool operator==(const CppStringElement& lhs, const CppStringElement& rhs)
 {
     return (const std::string&)lhs == (const std::string&)rhs;

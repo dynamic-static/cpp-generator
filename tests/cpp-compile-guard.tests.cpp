@@ -12,9 +12,6 @@
 
 #include "catch.hpp"
 
-#include <string>
-#include <string_view>
-
 namespace dst {
 namespace cppgen {
 namespace tests {

@@ -31,6 +31,33 @@ public:
     /**
     TODO : Documentation
     */
+    CppEnumerator() = default;
+
+    /**
+    TODO : Documentation
+    */
+    template <typename T, typename U = typename T>
+    inline CppEnumerator(const T& cppName, const U& cppValue = { })
+        : cppName { cppName }
+        , cppValue { cppValue }
+    {
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename T, typename U = typename T>
+    inline CppEnumerator(const CppCompileGuard::Collection& cppCompileGuards, const T& cppName, const U& cppValue = { })
+        : cppCompileGuards { cppCompileGuards }
+        , cppName { cppName }
+        , cppValue { cppValue }
+    {
+    }
+
+    /**
+    TODO : Documentation
+        @note Supports CppGenerationFlagBits [Declaration]
+    */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 
     CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
@@ -49,6 +76,7 @@ public:
 
     /**
     TODO : Documentation
+        @note Supports CppGenerationFlagBits [Declaration]
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
 };

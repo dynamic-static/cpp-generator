@@ -37,10 +37,10 @@ TEST_CASE("Populated CppDeclaration", "[CppDeclaration]")
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppDeclaration with a CppCompileGuard", "[CppDeclaration]")
+TEST_CASE("Populated CppDeclaration with CppCompileGuard", "[CppDeclaration]")
 {
     CppDeclaration cppDeclaration {
-        "DYNAMIC_STATIC_FEATURE_ENABLED",
+        CppCompileGuards { "DYNAMIC_STATIC_FEATURE_ENABLED" },
         "using a = b;"
     };
     CHECK(to_string(cppDeclaration, Declaration) ==
@@ -53,7 +53,7 @@ using a = b;
 /**
 TODO : Documentation
 */
-TEST_CASE("Populated CppDeclaration with a CppCompileGuard::Collection", "[CppDeclaration]")
+TEST_CASE("Populated CppDeclaration with CppCompileGuard::Collection", "[CppDeclaration]")
 {
     CppDeclaration cppDeclaration {
         CppCompileGuards {
@@ -127,7 +127,7 @@ TEST_CASE("CppDeclaration::Collection with multiple CppDeclarations with CppComp
     CppDeclaration::Collection cppDeclarations {
         "using a = b;",
         {
-            CppCompileGuard { "DYNAMIC_STATIC_OPTIONS_ENABLED" },
+            CppCompileGuards { "DYNAMIC_STATIC_OPTIONS_ENABLED" },
             "using Flags = uint32_t;"
         },
         {

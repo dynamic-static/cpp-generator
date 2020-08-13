@@ -44,16 +44,6 @@ public:
     TODO : Documentation
     */
     template <typename T>
-    inline CppDeclaration(const CppCompileGuard& cppCompileGuard, const T& cppDeclaration)
-        : CppStringElement(cppDeclaration)
-        , cppCompileGuards { cppCompileGuard }
-    {
-    }
-
-    /**
-    TODO : Documentation
-    */
-    template <typename T>
     inline CppDeclaration(const CppCompileGuard::Collection& cppCompileGuards, const T& cppDeclaration)
         : CppStringElement(cppDeclaration)
         , cppCompileGuards { cppCompileGuards }

@@ -13,9 +13,10 @@
 #include "catch.hpp"
 
 #include <fstream>
-#define WRITE_FUNCTIONS                                                              \
-std::ofstream("CppFunction.hpp") << to_string(cppFunction, Declaration);             \
-std::ofstream("CppFunction.cpp") << to_string(cppFunction, Definition);              \
+
+#define WRITE_FUNCTIONS                                                               \
+std::ofstream("CppFunction.hpp") << to_string(cppFunction, Declaration);              \
+std::ofstream("CppFunction.cpp") << to_string(cppFunction, Definition);               \
 std::ofstream("CppFunction.inl") << to_string(cppFunction, Declaration | Definition);
 
 namespace dst {

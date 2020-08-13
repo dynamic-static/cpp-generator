@@ -86,6 +86,7 @@ set(testsSourceFiles
     "${testsSourcePath}/catch.hpp"
     "${testsSourcePath}/cpp-compile-guard.tests.cpp"
     "${testsSourcePath}/cpp-function.tests.cpp"
+    "${testsSourcePath}/cpp-namespace.tests.cpp"
     "${testsSourcePath}/cpp-parameter.tests.cpp"
     "${testsSourcePath}/cpp-source-block.tests.cpp"
     "${testsSourcePath}/cpp-source-region.tests.cpp"

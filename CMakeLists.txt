@@ -85,6 +85,7 @@ set(testsSourcePath "${CMAKE_CURRENT_LIST_DIR}/tests/")
 set(testsSourceFiles
     "${testsSourcePath}/catch.hpp"
     "${testsSourcePath}/cpp-compile-guard.tests.cpp"
+    "${testsSourcePath}/cpp-declaration.tests.cpp"
     "${testsSourcePath}/cpp-function.tests.cpp"
     "${testsSourcePath}/cpp-namespace.tests.cpp"
     "${testsSourcePath}/cpp-parameter.tests.cpp"

@@ -82,12 +82,12 @@ R"(} // namespace cppgen
     SECTION("TODO")
     {
         CppNamespace::Collection cppNamespaces {
-            { },
-            "dst",
-            std::string_view(),
-            "",
-            "cppgen",
             std::string(),
+            "dst",
+            { },
+            std::string_view(),
+            "cppgen",
+            "",
         };
         CHECK(to_string(cppNamespaces, Open) ==
 R"(namespace {

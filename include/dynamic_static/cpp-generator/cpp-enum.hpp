@@ -74,8 +74,7 @@ private:
         if constexpr (std::is_same_v<decltype(arg), CppFlagBits> || std::is_integral_v<decltype(arg)>) {
             cppFlags |= arg;
         } else
-        if constexpr (std::is_same_v<decltype(arg), const char*>) {
-            // TODO : Test with non const char*
+        if constexpr (std::is_same_v<decltype(arg), const char*> || std::is_same_v<decltype(arg), char*>) {
             process_ctor_string_argument(arg ? arg : std::string_view { });
         } else
         if constexpr (std::is_same_v<decltype(arg), std::string> || std::is_same_v<decltype(arg), std::string_view>) {

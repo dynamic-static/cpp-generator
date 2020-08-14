@@ -24,6 +24,7 @@ set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include/")
 set(includePath "${includeDirectory}/dynamic_static/cpp-generator/")
 set(includeFiles
     "${includePath}/ascii-grid.hpp"
+    "${includePath}/cpp-case.hpp"
     "${includePath}/cpp-compile-guard.hpp"
     "${includePath}/cpp-declaration.hpp"
     "${includePath}/cpp-element.hpp"
@@ -38,6 +39,7 @@ set(includeFiles
     "${includePath}/cpp-source-block.error.hpp"
     "${includePath}/cpp-source-block.option.hpp"
     "${includePath}/cpp-structure.hpp"
+    "${includePath}/cpp-switch.hpp"
     "${includePath}/cpp-template.hpp"
     "${includePath}/cpp-variable.hpp"
     "${includePath}/defines.hpp"
@@ -48,7 +50,7 @@ set(includeFiles
 set(sourceDirectory "${CMAKE_CURRENT_LIST_DIR}/source/")
 set(sourcePath "${sourceDirectory}/dynamic_static/cpp-generator/")
 set(sourceFiles
-
+    "${sourcePath}/cpp-case.cpp"
     "${sourcePath}/cpp-compile-guard.cpp"
     "${sourcePath}/cpp-declaration.cpp"
     "${sourcePath}/cpp-element.cpp"
@@ -69,6 +71,7 @@ set(sourceFiles
     "${sourcePath}/cpp-source-tag.cpp"
     "${sourcePath}/cpp-source-tag.hpp"
     "${sourcePath}/cpp-structure.cpp"
+    "${sourcePath}/cpp-switch.cpp"
     "${sourcePath}/cpp-template.cpp"
     "${sourcePath}/cpp-variable.cpp"
     "${sourcePath}/stream-filter.cpp"
@@ -88,6 +91,7 @@ set(targetTests ${target}.tests)
 set(testsSourcePath "${CMAKE_CURRENT_LIST_DIR}/tests/")
 set(testsSourceFiles
     "${testsSourcePath}/catch.hpp"
+    "${testsSourcePath}/cpp-case.tests.cpp"
     "${testsSourcePath}/cpp-compile-guard.tests.cpp"
     "${testsSourcePath}/cpp-declaration.tests.cpp"
     "${testsSourcePath}/cpp-enum.tests.cpp"
@@ -98,6 +102,7 @@ set(testsSourceFiles
     "${testsSourcePath}/cpp-source-block.tests.cpp"
     "${testsSourcePath}/cpp-source-region.tests.cpp"
     "${testsSourcePath}/cpp-source-tag.tests.cpp"
+    "${testsSourcePath}/cpp-switch.tests.cpp"
     "${testsSourcePath}/main.cpp"
     "${testsSourcePath}/string.tests.cpp"
 )

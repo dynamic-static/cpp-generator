@@ -56,6 +56,7 @@ enum CppFlagBits
     Typedef  = 1 << 10, //!< TODO : Documentation
     Class    = 1 << 11, //!< TODO : Documentation
     Struct   = 1 << 12, //!< TODO : Documentation
+    Break    = 1 << 13, //!< TODO : Documentation
 };
 
 /**

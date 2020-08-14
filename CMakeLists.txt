@@ -41,7 +41,8 @@ set(includeFiles
     "${includePath}/cpp-template.hpp"
     "${includePath}/cpp-variable.hpp"
     "${includePath}/defines.hpp"
-    "${includePath}/tab.hpp"
+    "${includePath}/stream-filter.hpp"
+    "${includePath}/stream-tab.hpp"
     "${includeDirectory}/dynamic_static/cpp-generator.hpp"
 )
 set(sourceDirectory "${CMAKE_CURRENT_LIST_DIR}/source/")
@@ -70,9 +71,10 @@ set(sourceFiles
     "${sourcePath}/cpp-structure.cpp"
     "${sourcePath}/cpp-template.cpp"
     "${sourcePath}/cpp-variable.cpp"
+    "${sourcePath}/stream-filter.cpp"
+    "${sourcePath}/stream-tab.cpp"
     "${sourcePath}/string.cpp"
     "${sourcePath}/string.hpp"
-    "${sourcePath}/tab.cpp"
 )
 add_library(${target} STATIC "${includeFiles}" "${sourceFiles}")
 target_include_directories(${target} PUBLIC "${includeDirectory}")

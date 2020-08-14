@@ -21,12 +21,12 @@ void CppCompileGuard::generate(std::ostream& strm, CppGenerationFlags cppGenerat
 {
     if (cppGenerationFlags & Open) {
         if (!empty()) {
-            strm << "#ifdef " << *this << std::endl;
+            strm << "#ifdef " << *this << '\n';
         }
     } else
     if (cppGenerationFlags & Close) {
         if (!empty()) {
-            strm << "#endif // " << *this << std::endl;
+            strm << "#endif // " << *this << '\n';
         }
     }
 }

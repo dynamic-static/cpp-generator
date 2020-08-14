@@ -43,7 +43,7 @@ TODO : Documentation
 */
 enum CppFlagBits
 {
-    Inline   = 1,
+    Inline   = 1,       //!< TODO : Documentation
     Static   = 1 << 1,  //!< TODO : Documentation
     Extern   = 1 << 2,  //!< TODO : Documentation
     Const    = 1 << 3,  //!< TODO : Documentation
@@ -54,6 +54,8 @@ enum CppFlagBits
     Default  = 1 << 8,  //!< TODO : Documentation
     Delete   = 1 << 9,  //!< TODO : Documentation
     Typedef  = 1 << 10, //!< TODO : Documentation
+    Class    = 1 << 11, //!< TODO : Documentation
+    Struct   = 1 << 12, //!< TODO : Documentation
 };
 
 /**
@@ -64,7 +66,7 @@ using CppFlags = uint32_t;
 /**
 TODO : Documentation
 */
-enum CppAccessModifier
+enum CppAccessSpecifier
 {
     Unspecified, //!< TODO : Documentation
     Public,      //!< TODO : Documentation

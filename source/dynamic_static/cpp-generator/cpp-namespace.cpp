@@ -18,10 +18,10 @@ namespace cppgen {
 void CppNamespace::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
     if (cppGenerationFlags & Open) {
-        strm << "namespace" << (!empty() ? " " : std::string()) << *this << " {" << std::endl;
+        strm << "namespace" << (!empty() ? " " : std::string()) << *this << " {\n";
     } else
     if (cppGenerationFlags & Close) {
-        strm << "} // namespace" << (!empty() ? " " : std::string()) << *this << std::endl;
+        strm << "} // namespace" << (!empty() ? " " : std::string()) << *this << '\n';
     }
 }
 

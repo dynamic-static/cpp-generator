@@ -79,9 +79,9 @@ private:
             process_ctor_string_argument(arg);
         } else
         if constexpr (std::is_same_v<decltype(arg), CppFlagBits> || std::is_integral_v<decltype(arg)>) {
-            mCppFlags |= arg;
+            cppFlags |= arg;
         } else
-        if constexpr (std::is_same_v<decltype(arg), CppAccessModifier>) {
+        if constexpr (std::is_same_v<decltype(arg), CppAccessSpecifier>) {
             mCppAccessModififer = arg;
         } else
         if constexpr (std::is_base_of_v<decltype(arg), CppElement>) {
@@ -111,8 +111,8 @@ private:
     std::string mCppName;
     CppFlags mCppFlags { };
     CppDeclaration::Collection mCppDeclarations;
-    std::vector<std::pair<CppAccessModifier, std::unique_ptr<CppElement>>> mCppElementPtrs;
-    CppAccessModifier mCppAccessModififer { Unspecified };
+    std::vector<std::pair<CppAccessSpecifier, std::unique_ptr<CppElement>>> mCppElementPtrs;
+    CppAccessSpecifier mCppAccessModififer { Unspecified };
 };
 
 } // namespace cppgen

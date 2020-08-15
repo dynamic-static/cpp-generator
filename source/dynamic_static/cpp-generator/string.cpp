@@ -167,7 +167,7 @@ std::string format(std::string_view strView)
     const auto& [lines, indentation] = get_lines_and_indentation(strView);
     for (auto line : lines) {
         line.begin += indentation;
-        strStrm << line.str_view(strView) << std::endl;
+        strStrm << line.str_view(strView) << '\n';
     }
     return strStrm.str();
 }

@@ -20,7 +20,7 @@ void CppDeclaration::generate(std::ostream& strm, CppGenerationFlags cppGenerati
     if (cppGenerationFlags & Declaration) {
         if (!empty()) {
             cppCompileGuards.generate(strm, Open);
-            strm << *this << std::endl;
+            strm << *this << '\n';
             cppCompileGuards.generate(strm, Close);
         }
     }

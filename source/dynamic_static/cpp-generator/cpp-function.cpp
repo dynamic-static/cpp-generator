@@ -24,14 +24,14 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
         // TODO : Open CppCompileGuards...
         cppTemplate.generate(strm, cppGenerationFlags);
         if (!cppTemplate.cppParameters.empty()) {
-            strm << std::endl;
+            strm << '\n';
         }
         if (cppFlags & Inline) {
             strm << "inline ";
         }
-        strm << (cppFlags & Static  ? "static "  : std::string());
-        strm << (cppFlags & Extern  ? "extern "  : std::string());
-        strm << (cppFlags & Virtual ? "virtual " : std::string());
+        strm << (cppFlags & Static  ? "static "  : "");
+        strm << (cppFlags & Extern  ? "extern "  : "");
+        strm << (cppFlags & Virtual ? "virtual " : "");
         strm << cppReturnType << ' ';
         if (!cppEnclosingType.empty()) {
             strm << cppEnclosingType << "::";
@@ -41,21 +41,20 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
         strm << '(';
         cppParameters.generate(strm, cppGenerationFlags);
         strm << ')';
-        strm << (cppFlags & Const    ? " const"     : std::string());
-        strm << (cppFlags & Override ? " override"  : std::string());
-        strm << (cppFlags & Final    ? " final"     : std::string());
-        strm << (cppFlags & Abstract ? " = 0"       : std::string());
-        strm << (cppFlags & Default  ? " = default" : std::string());
-        strm << (cppFlags & Delete   ? " = delete"  : std::string());
+        strm << (cppFlags & Const    ? " const"     : "");
+        strm << (cppFlags & Override ? " override"  : "");
+        strm << (cppFlags & Final    ? " final"     : "");
+        strm << (cppFlags & Abstract ? " = 0"       : "");
+        strm << (cppFlags & Default  ? " = default" : "");
+        strm << (cppFlags & Delete   ? " = delete"  : "");
         if (cppGenerationFlags & Definition) {
-            strm << std::endl;
-            strm << '{' << std::endl;
+            strm << "\n{\n";
             strm << cppSourceBlock;
             strm << '}';
         } else {
             strm << ';';
         }
-        strm << std::endl;
+        strm << '\n';
         // TODO : Close CppCompileGuards...
     }
 }
@@ -65,7 +64,7 @@ void CppFunction::Collection::generate(std::ostream& strm, CppGenerationFlags cp
     size_t count = 0;
     for (const auto& element : *this) {
         if (cppGenerationFlags & Definition || count++) {
-            strm << std::endl;
+            strm << '\n';
         }
         element.generate(strm, cppGenerationFlags, cppEnclosingType);
     }

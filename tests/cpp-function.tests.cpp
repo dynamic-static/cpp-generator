@@ -55,6 +55,7 @@ static void validate_cpp_function(
     validate_cpp_function(cppFunction, Definition, expectedDefinition);
     validate_cpp_function(cppFunction, Declaration | Definition, expectedInlineDefinition);
     if (sWriteCppFunctionFiles) {
+        sWriteCppFunctionFiles = false;
         std::ofstream("CppFunction.hpp") << "\n" << to_string(cppFunction, Declaration);
         std::ofstream("CppFunction.cpp") << "\n" << to_string(cppFunction, Definition);
         std::ofstream("CppFunction.inl") << "\n" << to_string(cppFunction, Declaration | Definition);
@@ -64,20 +65,24 @@ static void validate_cpp_function(
 /**
 TODO : Documentation
 */
-TEST_CASE("CppFunction TODO", "[CppFunction]")
+TEST_CASE("Empty CppFunction", "[CppFunction]")
 {
-    SECTION("TODO")
-    {
-        CppFunction cppFunction;
-        validate_cpp_function(cppFunction, { }, { }, { });
-    }
-    SECTION("TODO")
-    {
-        CppFunction cppFunction(
-            "void", "update"
-        );
-        sWriteCppFunctionFiles = true;
-        validate_cpp_function(cppFunction,
+    CppFunction cppFunction;
+    validate_cpp_function(cppFunction, { }, { }, { });
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        "void", "update",
+        CppSourceBlock {
+            "// CppSourceBlock"
+        }
+    );
+    validate_cpp_function(cppFunction,
 R"(
 
 void update();
@@ -87,6 +92,7 @@ R"(
 
 void update()
 {
+    // CppSourceBlock
 }
 
 )",
@@ -94,20 +100,107 @@ R"(
 
 inline void update()
 {
+    // CppSourceBlock
 }
 
 )");
-    }
 }
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction with CppCompileGuards", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        CppCompileGuards {
+            "DYNAMIC_STATIC_PLATFORM",
+            "DYNAMIC_STATIC_FEATURE_ENABLED",
+        },
+        "void", "update",
+        CppSourceBlock {
+            "// CppSourceBlock"
+        }
+    );
+    sWriteCppFunctionFiles = true;
+    validate_cpp_function(cppFunction,
+        R"(
+
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+void update();
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+
+)",
+R"(
+
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+void update()
+{
+    // CppSourceBlock
+}
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+
+)",
+R"(
+
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+inline void update()
+{
+    // CppSourceBlock
+}
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+
+)");
+}
+
+#if 0
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction with CppTemplate", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        CppTemplate {{ "WidgetType" }},
+        "void", "update", CppParameters { "const WidgetType&", "widget" },
+        CppSourceBlock {
+            "// CppSourceBlock"
+        }
+    );
+    validate_cpp_function(cppFunction,
+R"(
+
+void update();
+
+)",
+R"(
+
+void update()
+{
+    // CppSourceBlock
+}
+
+)",
+R"(
+
+inline void update()
+{
+    // CppSourceBlock
+}
+
+)");
+}
+#endif
 
 /**
 TODO : Documentation
 */
 TEST_CASE("CppFunction::Collection", "[CppFunction::Collection]")
 {
-    SECTION("TODO")
-    {
-    }
 }
 
 } // namespace tests

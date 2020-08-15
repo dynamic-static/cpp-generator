@@ -25,12 +25,13 @@ TODO : Documentation
 */
 enum CppGenerationFlagBits
 {
-    Declaration    = 1,      //!< TODO : Documentation
-    Definition     = 1 << 1, //!< TODO : Documentation
-    Open           = 1 << 2, //!< TODO : Documentation
-    Close          = 1 << 3, //!< TODO : Documentation
-    Signature      = 1 << 4, //!< TODO : Documentation
-    Specialization = 1 << 5, //!< TODO : Documentation
+    Declaration      = 1,                        //!< TODO : Documentation
+    Definition       = 1 << 1,                   //!< TODO : Documentation
+    InlineDefinition = Declaration | Definition, //!< TODO : Documentation
+    Open             = 1 << 2,                   //!< TODO : Documentation
+    Close            = 1 << 3,                   //!< TODO : Documentation
+    Signature        = 1 << 4,                   //!< TODO : Documentation
+    Specialization   = 1 << 5,                   //!< TODO : Documentation
 };
 
 /**

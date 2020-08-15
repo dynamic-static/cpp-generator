@@ -9,6 +9,7 @@
 */
 
 #include "dynamic_static/cpp-generator/cpp-function.hpp"
+#include "dynamic_static/cpp-generator/stream-tab.hpp"
 
 #include <ostream>
 
@@ -18,17 +19,13 @@ namespace cppgen {
 void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
 {
     if (!cppReturnType.empty() && !cppName.empty()) {
-        // if (cppFlags & Inline && cppGenerationFlags & Declaration || !(cppFlags & Inline) && ) {
-        //     cppGenerationFlags |= Declaration | Definition;
-        // }
-        // TODO : Open CppCompileGuards...
+        cppGenerationFlags |= cppFlags & Inline ? InlineDefinition : 0;
+        cppCompileGuards.generate(strm, Open);
         cppTemplate.generate(strm, cppGenerationFlags);
         if (!cppTemplate.cppParameters.empty()) {
             strm << '\n';
         }
-        if (cppFlags & Inline) {
-            strm << "inline ";
-        }
+        strm << (((cppGenerationFlags & InlineDefinition) == InlineDefinition) ? "inline " : "");
         strm << (cppFlags & Static  ? "static "  : "");
         strm << (cppFlags & Extern  ? "extern "  : "");
         strm << (cppFlags & Virtual ? "virtual " : "");
@@ -49,13 +46,16 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
         strm << (cppFlags & Delete   ? " = delete"  : "");
         if (cppGenerationFlags & Definition) {
             strm << "\n{\n";
-            strm << cppSourceBlock;
+            {
+                StreamTab strmTab(strm, 1);
+                strm << cppSourceBlock;
+            }
             strm << '}';
         } else {
             strm << ';';
         }
         strm << '\n';
-        // TODO : Close CppCompileGuards...
+        cppCompileGuards.generate(strm, Close);
     }
 }
 

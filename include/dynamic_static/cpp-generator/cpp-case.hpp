@@ -29,6 +29,9 @@ class CppCase final
 public:
     class Collection;
 
+    /**
+    TODO : Documentation
+    */
     CppCase() = default;
 
     /**
@@ -42,9 +45,8 @@ public:
 
     /**
     TODO : Documentation
-        @note Supports CppGenerationFlagBits [Definition]
     */
-    void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
+    void generate(std::ostream& strm, CppGenerationFlags = 0, std::string_view = { }) const override final;
 
     CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
     std::string cppLabel;                         //!< TODO : Documentation
@@ -108,9 +110,8 @@ public:
 
     /**
     TODO : Documentation
-        @note Supports CppGenerationFlagBits [Definition]
     */
-    void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view = { }) const override final;
+    void generate(std::ostream& strm, CppGenerationFlags = 0, std::string_view = { }) const override final;
 };
 
 /**

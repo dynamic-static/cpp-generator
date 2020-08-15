@@ -16,9 +16,9 @@
 namespace dst {
 namespace cppgen {
 
-void CppCase::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
+void CppCase::generate(std::ostream& strm, CppGenerationFlags, std::string_view) const
 {
-    if (cppGenerationFlags & Definition && (cppFlags & Default || !cppLabel.empty())) {
+    if (cppFlags & Default || !cppLabel.empty()) {
         cppCompileGuards.generate(strm, Open);
         if (cppFlags & Default || cppLabel == "default") {
             strm << "default";
@@ -39,10 +39,10 @@ void CppCase::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags
     }
 }
 
-void CppCase::Collection::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
+void CppCase::Collection::generate(std::ostream& strm, CppGenerationFlags, std::string_view) const
 {
     for (const auto& cppCase : *this) {
-        cppCase.generate(strm, cppGenerationFlags);
+        cppCase.generate(strm);
     }
 }
 

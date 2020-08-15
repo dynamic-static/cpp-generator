@@ -37,13 +37,13 @@ public:
     /**
     TODO : Documentation
     */
-    virtual void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const = 0;
+    virtual void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags = 0, std::string_view cppEnclosingType = { }) const = 0;
 };
 
 /**
 TODO : Documentation
 */
-std::string to_string(const CppElement& cppElement, CppFlags flags, std::string_view cppEnclosingType = { });
+std::string to_string(const CppElement& cppElement, CppFlags flags = 0, std::string_view cppEnclosingType = { });
 
 /**
 TODO : Documentation

@@ -87,6 +87,75 @@ case Foo: {
 )");
 }
 
+/**
+TODO : Documentation
+*/
+TEST_CASE("Empty CppCase::Collection", "[CppCase::Collection]")
+{
+    CppCase::Collection cppCases;
+    CHECK(to_string(cppCases, Definition) == std::string());
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("Empty CppCase::Collection with CppCases", "[CppCase::Collection]")
+{
+    CppCase::Collection cppCases {
+        {
+            CppCompileGuards {
+                "DYNAMIC_STATIC_FOO_ENABLED"
+            },
+            "Foo",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }, Break
+        },
+        {
+            CppCompileGuards {
+                "DYNAMIC_STATIC_PLATFORM",
+                "DYNAMIC_STATIC_BAR_ENABLED",
+            },
+            "Bar",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }, Break
+        },
+        {
+            "Baz",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }, Break
+        },
+        {
+            Default,
+            CppSourceBlock {
+                "assert(false);"
+            }
+        },
+    };
+    CHECK(to_string(cppCases, Definition) ==
+R"(#ifdef DYNAMIC_STATIC_FOO_ENABLED
+case Foo: {
+    // CppSourceBlock
+} break;
+#endif // DYNAMIC_STATIC_FOO_ENABLED
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_BAR_ENABLED
+case Bar: {
+    // CppSourceBlock
+} break;
+#endif // DYNAMIC_STATIC_BAR_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+case Baz: {
+    // CppSourceBlock
+} break;
+default: {
+    assert(false);
+}
+)");
+}
+
 } // namespace tests
 } // namespace cppgen
 } // namespace dst

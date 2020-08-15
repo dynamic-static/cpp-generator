@@ -41,7 +41,9 @@ void CppCase::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags
 
 void CppCase::Collection::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
-
+    for (const auto& cppCase : *this) {
+        cppCase.generate(strm, cppGenerationFlags);
+    }
 }
 
 } // namespace cppgen

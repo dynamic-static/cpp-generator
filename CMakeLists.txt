@@ -102,9 +102,12 @@ set(testsSourceFiles
     "${testsSourcePath}/cpp-source-block.tests.cpp"
     "${testsSourcePath}/cpp-source-region.tests.cpp"
     "${testsSourcePath}/cpp-source-tag.tests.cpp"
+    "${testsSourcePath}/cpp-structure.tests.cpp"
     "${testsSourcePath}/cpp-switch.tests.cpp"
-    "${testsSourcePath}/main.cpp"
+    "${testsSourcePath}/cpp-template.tests.cpp"
+    "${testsSourcePath}/cpp-variable.tests.cpp"
     "${testsSourcePath}/string.tests.cpp"
+    "${testsSourcePath}/main.cpp"
 )
 add_executable(${targetTests} "${testsSourceFiles}")
 target_compile_features(${targetTests} PUBLIC cxx_std_17)

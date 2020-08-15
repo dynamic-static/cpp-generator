@@ -35,7 +35,7 @@ public:
     /**
     TODO : Documentation
     */
-    CppFile(const std::filesystem::path& filePath);
+    CppFile(const std::filesystem::path& filePath, CppGenerationFlags cppGenerationFlags);
 
     /**
     TODO : Documentation
@@ -43,11 +43,11 @@ public:
     ~CppFile();
 
     std::string header;                           //!< TODO : Documentation
-    bool pragmaOnce { false };                    //!< TODO : Documentation
     CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
 
 private:
     std::filesystem::path mFilePath;
+    CppGenerationFlags mCppGenerationFlags;
     std::stringstream mContent;
 };
 

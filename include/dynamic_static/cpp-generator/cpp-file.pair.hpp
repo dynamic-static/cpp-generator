@@ -36,6 +36,11 @@ public:
         const std::filesystem::path& sourceFilePath
     );
 
+    /**
+    TODO : Documentation
+    */
+    ~Pair();
+
     std::string header;                           //!< TODO : Documentation
     CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation
     CppFile hpp;                                  //!< TODO : Documentation

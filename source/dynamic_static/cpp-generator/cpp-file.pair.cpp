@@ -20,18 +20,17 @@ CppFile::Pair::Pair(
     const std::filesystem::path& headerFilePath,
     const std::filesystem::path& sourceFilePath
 )
-    : hpp(includePath / headerFilePath)
-    , cpp(sourceFilePath)
+    : hpp(includePath / headerFilePath, Declaration)
+    , cpp(sourceFilePath, Definition)
 {
+    // hpp << "pragma once\n";
+    // cpp << "#include \"" << (includePath / headerFilePath).str() << "\"\n";
 }
 
 CppFile::Pair::~Pair()
 {
-    std::stringstream content;
-    content << header << '\n';
-    cppCompileGuards.generate(content, Open);
-    cppCompileGuards.generate(content, Close);
-    content << '\n';
+    // cppCompileGuards.generate(hpp, Open);
+    // cppCompileGuards.generate(cpp, Close);
 }
 
 } // namespace cppgen

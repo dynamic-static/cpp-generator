@@ -15,20 +15,18 @@
 namespace dst {
 namespace cppgen {
 
-CppFile::CppFile(const std::filesystem::path& filePath)
+CppFile::CppFile(const std::filesystem::path& filePath, CppGenerationFlags cppGenerationFlags)
     : mFilePath { filePath }
+    , mCppGenerationFlags { cppGenerationFlags }
 {
 }
 
 CppFile::~CppFile()
 {
     std::stringstream content;
-    content << header << '\n';
-    content << (pragmaOnce ? "#pragma once\n\n" : "");
     cppCompileGuards.generate(content, Open);
     content << mContent.str();
     cppCompileGuards.generate(content, Close);
-    content << '\n';
 }
 
 } // namespace cppgen

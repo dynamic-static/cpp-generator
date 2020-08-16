@@ -20,6 +20,7 @@ namespace cppgen {
 
 CppElement::~CppElement()
 {
+    static_assert(Declaration == Inline, "TODO : Documentation");
 }
 
 std::string to_string(const CppElement& cppElement, CppFlags flags, std::string_view cppEnclosingType)

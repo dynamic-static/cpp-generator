@@ -16,10 +16,19 @@
 namespace dst {
 namespace cppgen {
 
+bool CppTemplate::empty() const
+{
+    return cppParameters.empty() && cppSpecializations.empty();
+}
+
+bool CppTemplate::operative(CppGenerationFlags cppGenerationFlags) const
+{
+    return !empty() && (cppGenerationFlags & Declaration || cppGenerationFlags & Definition && cppParameters.empty());
+}
+
 void CppTemplate::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view) const
 {
-    if ((!cppParameters.empty() || !cppSpecializations.empty()) &&
-        (cppGenerationFlags & Declaration || cppGenerationFlags & Definition && cppParameters.empty())) {
+    if (operative(cppGenerationFlags)) {
         if (!(cppGenerationFlags & Specialization)) {
             strm << "template <";
             cppParameters.generate(strm, cppGenerationFlags);

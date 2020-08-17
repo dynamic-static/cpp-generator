@@ -16,15 +16,27 @@
 namespace dst {
 namespace cppgen {
 
+static constexpr CppFlags InlineDefinition = Inline | Definition;
+
+bool CppFunction::empty() const
+{
+    return cppReturnType.empty() || cppName.empty();
+}
+
+bool CppFunction::operative(CppGenerationFlags cppGenerationFlags) const
+{
+    return
+        !empty() &&
+        cppGenerationFlags & InlineDefinition &&
+        (cppTemplate.empty() || cppTemplate.operative(cppGenerationFlags));
+}
+
 void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
 {
-    if (!cppReturnType.empty() && !cppName.empty()) {
+    if (operative(cppGenerationFlags)) {
         cppGenerationFlags |= cppFlags & Inline ? InlineDefinition : 0;
         cppCompileGuards.generate(strm, Open);
         cppTemplate.generate(strm, cppGenerationFlags);
-        if (!cppTemplate.cppParameters.empty()) {
-            strm << '\n';
-        }
         strm << (((cppGenerationFlags & InlineDefinition) == InlineDefinition) ? "inline " : "");
         strm << (cppFlags & Static  ? "static "  : "");
         strm << (cppFlags & Extern  ? "extern "  : "");

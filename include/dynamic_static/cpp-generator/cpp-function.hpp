@@ -45,6 +45,16 @@ public:
     /**
     TODO : Documentation
     */
+    bool empty() const;
+
+    /**
+    TODO : Documentation
+    */
+    bool operative(CppGenerationFlags cppGenerationFlags) const;
+
+    /**
+    TODO : Documentation
+    */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
 
     CppCompileGuard::Collection cppCompileGuards; //!< TODO : Documentation

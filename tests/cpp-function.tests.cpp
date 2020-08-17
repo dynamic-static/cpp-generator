@@ -53,12 +53,12 @@ static void validate_cpp_function(
 {
     validate_cpp_function(cppFunction, Declaration, expectedDeclaration);
     validate_cpp_function(cppFunction, Definition, expectedDefinition);
-    validate_cpp_function(cppFunction, Declaration | Definition, expectedInlineDefinition);
+    validate_cpp_function(cppFunction, Inline | Definition, expectedInlineDefinition);
     if (sWriteCppFunctionFiles) {
         sWriteCppFunctionFiles = false;
         std::ofstream("CppFunction.hpp") << "\n" << to_string(cppFunction, Declaration);
         std::ofstream("CppFunction.cpp") << "\n" << to_string(cppFunction, Definition);
-        std::ofstream("CppFunction.inl") << "\n" << to_string(cppFunction, Declaration | Definition);
+        std::ofstream("CppFunction.inl") << "\n" << to_string(cppFunction, Inline | Definition);
     }
 }
 
@@ -158,6 +158,94 @@ inline void update()
 )");
 }
 
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction with single CppParameter", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        "void", "update", CppParameter { "const Widget*", "pWidget", "nullptr" },
+        CppSourceBlock {R"(
+            if (pWidget) {
+                process(*pWidget);
+            }
+        )"}
+    );
+    validate_cpp_function(cppFunction,
+R"(
+
+void update(const Widget* pWidget = nullptr);
+
+)",
+R"(
+
+void update(const Widget* pWidget)
+{
+    if (pWidget) {
+        process(*pWidget);
+    }
+}
+
+)",
+R"(
+
+inline void update(const Widget* pWidget = nullptr)
+{
+    if (pWidget) {
+        process(*pWidget);
+    }
+}
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction with multiple CppParameters", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        "void", "update", CppParameters {{ "size_t", "widgetCount", "0" }, { "const Widget*", "pWidgets", "nullptr" } },
+        CppSourceBlock { R"(
+            if (widgetCount && pWidgets) {
+                for (size_t i = 0; i < widgetCount; ++i) {
+                    process(pWidgets[i]);
+                }
+            }
+        )" }
+    );
+    validate_cpp_function(cppFunction,
+        R"(
+
+void update(size_t widgetCount = 0, const Widget* pWidgets = nullptr);
+
+)",
+R"(
+
+void update(size_t widgetCount, const Widget* pWidgets)
+{
+    if (widgetCount && pWidgets) {
+        for (size_t i = 0; i < widgetCount; ++i) {
+            process(pWidgets[i]);
+        }
+    }
+}
+
+)",
+R"(
+
+inline void update(size_t widgetCount = 0, const Widget* pWidgets = nullptr)
+{
+    if (widgetCount && pWidgets) {
+        for (size_t i = 0; i < widgetCount; ++i) {
+            process(pWidgets[i]);
+        }
+    }
+}
+
+)");
+}
+
 #if 0
 /**
 TODO : Documentation
@@ -165,31 +253,24 @@ TODO : Documentation
 TEST_CASE("CppFunction with CppTemplate", "[CppFunction]")
 {
     CppFunction cppFunction(
-        CppTemplate {{ "WidgetType" }},
+        // CppTemplate { CppParameters {{ "typename", "WidgetType" }}},
         "void", "update", CppParameters { "const WidgetType&", "widget" },
-        CppSourceBlock {
-            "// CppSourceBlock"
-        }
     );
     validate_cpp_function(cppFunction,
 R"(
 
-void update();
-
-)",
-R"(
-
-void update()
+template <typename WidgetType>
+inline void update(const WidgetType& widget)
 {
-    // CppSourceBlock
 }
 
 )",
+{ },
 R"(
 
-inline void update()
+template <typename WidgetType>
+inline void update(const WidgetType& widget)
 {
-    // CppSourceBlock
 }
 
 )");

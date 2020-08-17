@@ -30,9 +30,7 @@ void CppTemplate::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
 {
     if (operative(cppGenerationFlags)) {
         if (!(cppGenerationFlags & Specialization)) {
-            strm << "template <";
-            cppParameters.generate(strm, cppGenerationFlags);
-            strm << ">\n";
+            strm << "template <"; cppParameters.generate(strm, cppGenerationFlags); strm << ">\n";
         } else
         if (cppGenerationFlags & Declaration || cppParameters.empty()) {
             size_t count = 0;

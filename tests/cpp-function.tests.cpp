@@ -274,6 +274,103 @@ inline void update(const WidgetType& widget)
 /**
 TODO : Documentation
 */
+TEST_CASE("CppFunction with CppTemplate and CppCompileGuard", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        CppCompileGuard { "DYNAMIC_STATIC_FEATURE_ENABLED" },
+        CppTemplate { CppParameters {{ "typename", "WidgetType" }}},
+        "void", "update", CppParameters {{ "const WidgetType&", "widget" }}
+    );
+    validate_cpp_function(cppFunction,
+R"(
+
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+template <typename WidgetType>
+inline void update(const WidgetType& widget)
+{
+}
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+
+)",
+{ },
+R"(
+
+#ifdef DYNAMIC_STATIC_FEATURE_ENABLED
+template <typename WidgetType>
+inline void update(const WidgetType& widget)
+{
+}
+#endif // DYNAMIC_STATIC_FEATURE_ENABLED
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction with CppTemplate specialization", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        CppTemplate { CppSpecialization { "Widget" }},
+        "void", "update", CppParameters {{ "const Widget&", "widget" }}
+    );
+    validate_cpp_function(cppFunction,
+R"(
+
+template <>
+void update<Widget>(const Widget& widget);
+
+)",
+R"(
+
+template <>
+void update<Widget>(const Widget& widget)
+{
+}
+
+)",
+R"(
+
+template <>
+inline void update<Widget>(const Widget& widget)
+{
+}
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction with CppTemplate partial specialization", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        CppTemplate { CppParameter { "size_t", "Count", "4" }, CppSpecialization { "Widget" } },
+        "void", "update", CppParameters {{ "const std::array<Widget, Count>&", "widgets" }}
+    );
+    validate_cpp_function(cppFunction,
+R"(
+
+template <size_t Count = 4>
+inline void update<Widget>(const std::array<Widget, Count>& widgets)
+{
+}
+
+)",
+{ },
+R"(
+
+template <size_t Count = 4>
+inline void update<Widget>(const std::array<Widget, Count>& widgets)
+{
+}
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
 TEST_CASE("CppFunction::Collection", "[CppFunction::Collection]")
 {
 }

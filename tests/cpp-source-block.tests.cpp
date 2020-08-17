@@ -98,7 +98,7 @@ TEST_CASE("dst::cppgen::CppSourceBlock TODO 0", "[CppSourceBlock]")
     };
     auto cppSource = R"(
     $<STRUCTURES>
-    struct ${NAME} final : $<BASE_TYPES>${BASE_TYPE}$</ s = ", ">
+    struct ${NAME} final : $<BASE_TYPES>${BASE_TYPE}$</s = ", ">
     {
         using Flags = uint32_t;
         using Storage = std::vector<${NAME}, WidgetAllocator<${NAME}>>;
@@ -109,7 +109,7 @@ TEST_CASE("dst::cppgen::CppSourceBlock TODO 0", "[CppSourceBlock]")
         $</>
         std::vector<float> scale { $<SCALE>${VALUE}$</s = ", "> };
     };
-    $</s="\n">
+    $</s = "\n">
     )";
     std::ofstream("ascii-chart.txt") << dst::get_debug_view(cppSource);
     CppSourceBlock cppSourceBlock(

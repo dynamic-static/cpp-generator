@@ -76,7 +76,7 @@ TEST_CASE("CppTemplate multiple CppParameters", "[CppTemplate]")
 /**
 TODO : Documentation
 */
-TEST_CASE("CppTemplate full specialization", "[CppTemplate]")
+TEST_CASE("CppTemplate specialization", "[CppTemplate]")
 {
     CppTemplate cppTemplate {
         CppSpecializations { "Widget", "8" },

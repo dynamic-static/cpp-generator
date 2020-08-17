@@ -34,7 +34,9 @@ bool CppFunction::operative(CppGenerationFlags cppGenerationFlags) const
 void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
 {
     if (operative(cppGenerationFlags)) {
-        cppGenerationFlags |= cppFlags & Inline ? InlineDefinition : 0;
+        if (cppFlags & Inline || (!cppTemplate.empty() && cppTemplate.operative(cppGenerationFlags))) {
+            cppGenerationFlags |= InlineDefinition;
+        }
         cppCompileGuards.generate(strm, Open);
         cppTemplate.generate(strm, cppGenerationFlags);
         strm << (((cppGenerationFlags & InlineDefinition) == InlineDefinition) ? "inline " : "");

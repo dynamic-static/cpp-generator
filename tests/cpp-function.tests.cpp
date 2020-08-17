@@ -28,17 +28,13 @@ static bool sWriteCppFunctionFiles;
 /**
 TODO : Documentation
 */
-static void validate_cpp_function(
+static std::string to_padded_string(
     const CppFunction& cppFunction,
-    CppGenerationFlags cppGenerationFlags,
-    std::string_view expected
+    CppGenerationFlags cppGenerationFlags
 )
 {
-    auto actual = to_string(cppFunction, cppGenerationFlags);
-    if (!expected.empty()) {
-        actual = "\n\n" + actual + '\n';
-    }
-    CHECK(actual == expected);
+    auto str = to_string(cppFunction, cppGenerationFlags);
+    return !str.empty() ? "\n\n" + str + '\n' : str;
 }
 
 /**
@@ -51,9 +47,9 @@ static void validate_cpp_function(
     std::string_view expectedInlineDefinition
 )
 {
-    validate_cpp_function(cppFunction, Declaration, expectedDeclaration);
-    validate_cpp_function(cppFunction, Definition, expectedDefinition);
-    validate_cpp_function(cppFunction, Inline | Definition, expectedInlineDefinition);
+    CHECK(to_padded_string(cppFunction, Declaration) == expectedDeclaration);
+    CHECK(to_padded_string(cppFunction, Definition) == expectedDefinition);
+    CHECK(to_padded_string(cppFunction, Inline | Definition) == expectedInlineDefinition);
     if (sWriteCppFunctionFiles) {
         sWriteCppFunctionFiles = false;
         std::ofstream("CppFunction.hpp") << "\n" << to_string(cppFunction, Declaration);
@@ -205,7 +201,7 @@ TODO : Documentation
 TEST_CASE("CppFunction with multiple CppParameters", "[CppFunction]")
 {
     CppFunction cppFunction(
-        "void", "update", CppParameters {{ "size_t", "widgetCount", "0" }, { "const Widget*", "pWidgets", "nullptr" } },
+        "void", "update", CppParameters {{ "size_t", "widgetCount", "0" }, { "const Widget*", "pWidgets", "nullptr" }},
         CppSourceBlock { R"(
             if (widgetCount && pWidgets) {
                 for (size_t i = 0; i < widgetCount; ++i) {
@@ -246,15 +242,14 @@ inline void update(size_t widgetCount = 0, const Widget* pWidgets = nullptr)
 )");
 }
 
-#if 0
 /**
 TODO : Documentation
 */
 TEST_CASE("CppFunction with CppTemplate", "[CppFunction]")
 {
     CppFunction cppFunction(
-        // CppTemplate { CppParameters {{ "typename", "WidgetType" }}},
-        "void", "update", CppParameters { "const WidgetType&", "widget" },
+        CppTemplate { CppParameters {{ "typename", "WidgetType" }}},
+        "void", "update", CppParameters {{ "const WidgetType&", "widget" }}
     );
     validate_cpp_function(cppFunction,
 R"(
@@ -275,7 +270,6 @@ inline void update(const WidgetType& widget)
 
 )");
 }
-#endif
 
 /**
 TODO : Documentation

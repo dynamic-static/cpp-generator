@@ -26,9 +26,9 @@ static void validate_cpp_template(
 )
 {
     CHECK(to_string(cppTemplate, Declaration) == expectedTemplateDeclaration);
-    CHECK(to_string(cppTemplate, Inline | Definition) == expectedTemplateDeclaration);
+    CHECK(to_string(cppTemplate, Declaration | Definition) == expectedTemplateDeclaration);
     CHECK(to_string(cppTemplate, Specialization | Declaration) == expectedSpecializationDeclaration);
-    CHECK(to_string(cppTemplate, Specialization | Inline | Definition) == expectedSpecializationDeclaration);
+    CHECK(to_string(cppTemplate, Specialization | Declaration | Definition) == expectedSpecializationDeclaration);
     if (!cppTemplate.cppParameters.empty()) {
         CHECK(to_string(cppTemplate, Definition) == std::string());
         CHECK(to_string(cppTemplate, Specialization | Definition) == std::string());

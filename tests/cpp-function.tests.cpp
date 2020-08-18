@@ -444,6 +444,34 @@ virtual void Widget::update() = 0;
 /**
 TODO : Documentation
 */
+TEST_CASE("CppFunction default member", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        Virtual, "void", "update", Abstract
+    );
+    validate_cpp_function(cppFunction, "Widget",
+R"(
+
+virtual void update() = 0;
+
+)",
+R"(
+
+void Widget::update()
+{
+}
+
+)",
+R"(
+
+virtual void Widget::update() = 0;
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
 TEST_CASE("CppFunction::Collection", "[CppFunction::Collection]")
 {
 }

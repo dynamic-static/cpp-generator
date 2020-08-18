@@ -40,6 +40,9 @@ public:
     inline CppFunction(const Args&... args)
     {
         process_ctor_arguments(std::tie(args...));
+        if (cppName.empty()) {
+            std::swap(cppReturnType, cppName);
+        }
     }
 
     /**

@@ -18,7 +18,7 @@ namespace cppgen {
 
 bool CppFunction::empty() const
 {
-    return cppReturnType.empty() || cppName.empty();
+    return cppName.empty();
 }
 
 bool CppFunction::operative(CppGenerationFlags cppGenerationFlags) const
@@ -26,6 +26,7 @@ bool CppFunction::operative(CppGenerationFlags cppGenerationFlags) const
     return
         !empty() &&
         cppGenerationFlags & (Declaration | Definition) &&
+        !(!(cppGenerationFlags & Declaration) && (cppFlags & Default || cppFlags & Delete)) &&
         (cppTemplate.empty() || cppTemplate.operative(cppGenerationFlags));
 }
 
@@ -44,9 +45,12 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
             strm << (cppFlags & Static  ? "static "  : "");
             strm << (cppFlags & Extern  ? "extern "  : "");
             strm << (cppFlags & Virtual ? "virtual " : "");
+            strm << (cppFlags & Friend  ? "friend "  : "");
         }
-        strm << cppReturnType << ' ';
-        if (cppGenerationFlags & Definition && !cppEnclosingType.empty()) {
+        if (!cppReturnType.empty()) {
+            strm << cppReturnType << ' ';
+        }
+        if (!(cppGenerationFlags & Declaration) && cppGenerationFlags & Definition && !cppEnclosingType.empty()) {
             strm << cppEnclosingType << "::";
         }
         strm << cppName;
@@ -60,7 +64,10 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
             strm << (cppFlags & Default  ? " = default" : "");
             strm << (cppFlags & Delete   ? " = delete"  : "");
         }
-        if (cppGenerationFlags & Definition && !(cppGenerationFlags & Declaration && cppFlags & Abstract)) {
+        if (cppGenerationFlags & Definition &&
+            !(cppGenerationFlags & Declaration && cppFlags & Abstract) &&
+            !(cppFlags & Default) &&
+            !(cppFlags & Delete)) {
             strm << "\n{\n";
             {
                 StreamTab strmTab(strm, 1);

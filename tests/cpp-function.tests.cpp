@@ -389,24 +389,24 @@ TODO : Documentation
 TEST_CASE("CppFunction member", "[CppFunction]")
 {
     CppFunction cppFunction(
-        "void", "update", Override | Final
+        "void", "update", Const | Override | Final
     );
     validate_cpp_function(cppFunction, "Widget",
 R"(
 
-void update() override final;
+void update() const override final;
 
 )",
 R"(
 
-void Widget::update()
+void Widget::update() const
 {
 }
 
 )",
 R"(
 
-void Widget::update() override final
+void update() const override final
 {
 }
 
@@ -436,7 +436,7 @@ void Widget::update()
 )",
 R"(
 
-virtual void Widget::update() = 0;
+virtual void update() = 0;
 
 )");
 }
@@ -447,24 +447,18 @@ TODO : Documentation
 TEST_CASE("CppFunction default member", "[CppFunction]")
 {
     CppFunction cppFunction(
-        Virtual, "void", "update", Abstract
+        "Widget", Default
     );
     validate_cpp_function(cppFunction, "Widget",
 R"(
 
-virtual void update() = 0;
+Widget() = default;
 
 )",
+{ },
 R"(
 
-void Widget::update()
-{
-}
-
-)",
-R"(
-
-virtual void Widget::update() = 0;
+Widget() = default;
 
 )");
 }
@@ -472,8 +466,9 @@ virtual void Widget::update() = 0;
 /**
 TODO : Documentation
 */
-TEST_CASE("CppFunction::Collection", "[CppFunction::Collection]")
+TEST_CASE("Empty CppFunction::Collection", "[CppFunction::Collection]")
 {
+    CppFunction::Collection cppFunctions;
 }
 
 } // namespace tests

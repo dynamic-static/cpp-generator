@@ -12,13 +12,6 @@
 
 #include "catch.hpp"
 
-#include <fstream>
-
-#define WRITE_FUNCTIONS                                                               \
-std::ofstream("CppFunction.hpp") << to_string(cppFunction, Declaration);              \
-std::ofstream("CppFunction.cpp") << to_string(cppFunction, Definition);               \
-std::ofstream("CppFunction.inl") << to_string(cppFunction, Declaration | Definition);
-
 namespace dst {
 namespace cppgen {
 namespace tests {
@@ -52,12 +45,6 @@ static void validate_cpp_function(
     CHECK(to_padded_string(cppFunction, Declaration, cppEnclosingType) == expectedDeclaration);
     CHECK(to_padded_string(cppFunction, Definition, cppEnclosingType) == expectedDefinition);
     CHECK(to_padded_string(cppFunction, Declaration | Definition, cppEnclosingType) == expectedInlineDefinition);
-    if (sWriteCppFunctionFiles) {
-        sWriteCppFunctionFiles = false;
-        std::ofstream("CppFunction.hpp") << "\n" << to_string(cppFunction, Declaration);
-        std::ofstream("CppFunction.cpp") << "\n" << to_string(cppFunction, Definition);
-        std::ofstream("CppFunction.inl") << "\n" << to_string(cppFunction, Declaration | Definition);
-    }
 }
 
 /**

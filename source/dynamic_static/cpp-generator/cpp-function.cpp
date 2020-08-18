@@ -16,8 +16,6 @@
 namespace dst {
 namespace cppgen {
 
-static constexpr CppFlags InlineDefinition = Inline | Definition;
-
 bool CppFunction::empty() const
 {
     return cppReturnType.empty() || cppName.empty();
@@ -27,36 +25,42 @@ bool CppFunction::operative(CppGenerationFlags cppGenerationFlags) const
 {
     return
         !empty() &&
-        cppGenerationFlags & InlineDefinition &&
+        cppGenerationFlags & (Declaration | Definition) &&
         (cppTemplate.empty() || cppTemplate.operative(cppGenerationFlags));
 }
 
 void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType) const
 {
     if (operative(cppGenerationFlags)) {
-        if (cppFlags & Inline || (!cppTemplate.empty() && cppTemplate.operative(cppGenerationFlags) && !cppTemplate.operative(Definition))) {
-            cppGenerationFlags |= InlineDefinition;
+        if (!cppTemplate.empty() && cppTemplate.operative(cppGenerationFlags) && !cppTemplate.operative(Definition)) {
+            cppGenerationFlags |= (Declaration | Definition);
         }
         cppCompileGuards.generate(strm, Open);
         cppTemplate.generate(strm, cppGenerationFlags);
-        strm << (((cppGenerationFlags & InlineDefinition) == InlineDefinition) ? "inline " : "");
-        strm << (cppFlags & Static  ? "static "  : "");
-        strm << (cppFlags & Extern  ? "extern "  : "");
-        strm << (cppFlags & Virtual ? "virtual " : "");
+        if ((cppGenerationFlags & (Declaration | Definition)) == (Declaration | Definition) && cppEnclosingType.empty()) {
+            strm << "inline ";
+        }
+        if (cppGenerationFlags & Declaration) {
+            strm << (cppFlags & Static  ? "static "  : "");
+            strm << (cppFlags & Extern  ? "extern "  : "");
+            strm << (cppFlags & Virtual ? "virtual " : "");
+        }
         strm << cppReturnType << ' ';
-        if (!cppEnclosingType.empty()) {
+        if (cppGenerationFlags & Definition && !cppEnclosingType.empty()) {
             strm << cppEnclosingType << "::";
         }
         strm << cppName;
         cppTemplate.generate(strm, cppGenerationFlags | Specialization);
         strm << '('; cppParameters.generate(strm, cppGenerationFlags); strm << ')';
-        strm << (cppFlags & Const    ? " const"     : "");
-        strm << (cppFlags & Override ? " override"  : "");
-        strm << (cppFlags & Final    ? " final"     : "");
-        strm << (cppFlags & Abstract ? " = 0"       : "");
-        strm << (cppFlags & Default  ? " = default" : "");
-        strm << (cppFlags & Delete   ? " = delete"  : "");
-        if (cppGenerationFlags & Definition) {
+        strm << (cppFlags & Const ? " const" : "");
+        if (cppGenerationFlags & Declaration) {
+            strm << (cppFlags & Override ? " override"  : "");
+            strm << (cppFlags & Final    ? " final"     : "");
+            strm << (cppFlags & Abstract ? " = 0"       : "");
+            strm << (cppFlags & Default  ? " = default" : "");
+            strm << (cppFlags & Delete   ? " = delete"  : "");
+        }
+        if (cppGenerationFlags & Definition && !(cppGenerationFlags & Declaration && cppFlags & Abstract)) {
             strm << "\n{\n";
             {
                 StreamTab strmTab(strm, 1);

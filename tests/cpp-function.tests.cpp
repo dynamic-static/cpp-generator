@@ -30,11 +30,34 @@ TODO : Documentation
 */
 static std::string to_padded_string(
     const CppFunction& cppFunction,
-    CppGenerationFlags cppGenerationFlags
+    CppGenerationFlags cppGenerationFlags,
+    std::string_view cppEnclosingType
 )
 {
-    auto str = to_string(cppFunction, cppGenerationFlags);
+    auto str = to_string(cppFunction, cppGenerationFlags, cppEnclosingType);
     return !str.empty() ? "\n\n" + str + '\n' : str;
+}
+
+/**
+TODO : Documentation
+*/
+static void validate_cpp_function(
+    const CppFunction& cppFunction,
+    std::string_view cppEnclosingType,
+    std::string_view expectedDeclaration,
+    std::string_view expectedDefinition,
+    std::string_view expectedInlineDefinition
+)
+{
+    CHECK(to_padded_string(cppFunction, Declaration, cppEnclosingType) == expectedDeclaration);
+    CHECK(to_padded_string(cppFunction, Definition, cppEnclosingType) == expectedDefinition);
+    CHECK(to_padded_string(cppFunction, Declaration | Definition, cppEnclosingType) == expectedInlineDefinition);
+    if (sWriteCppFunctionFiles) {
+        sWriteCppFunctionFiles = false;
+        std::ofstream("CppFunction.hpp") << "\n" << to_string(cppFunction, Declaration);
+        std::ofstream("CppFunction.cpp") << "\n" << to_string(cppFunction, Definition);
+        std::ofstream("CppFunction.inl") << "\n" << to_string(cppFunction, Declaration | Definition);
+    }
 }
 
 /**
@@ -47,15 +70,7 @@ static void validate_cpp_function(
     std::string_view expectedInlineDefinition
 )
 {
-    CHECK(to_padded_string(cppFunction, Declaration) == expectedDeclaration);
-    CHECK(to_padded_string(cppFunction, Definition) == expectedDefinition);
-    CHECK(to_padded_string(cppFunction, Inline | Definition) == expectedInlineDefinition);
-    if (sWriteCppFunctionFiles) {
-        sWriteCppFunctionFiles = false;
-        std::ofstream("CppFunction.hpp") << "\n" << to_string(cppFunction, Declaration);
-        std::ofstream("CppFunction.cpp") << "\n" << to_string(cppFunction, Definition);
-        std::ofstream("CppFunction.inl") << "\n" << to_string(cppFunction, Inline | Definition);
-    }
+    validate_cpp_function(cppFunction, { }, expectedDeclaration, expectedDefinition, expectedInlineDefinition);
 }
 
 /**
@@ -364,6 +379,64 @@ template <size_t Count = 4>
 inline void update<Widget>(const std::array<Widget, Count>& widgets)
 {
 }
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction member", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        "void", "update", Override | Final
+    );
+    validate_cpp_function(cppFunction, "Widget",
+R"(
+
+void update() override final;
+
+)",
+R"(
+
+void Widget::update()
+{
+}
+
+)",
+R"(
+
+void Widget::update() override final
+{
+}
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction abstract member", "[CppFunction]")
+{
+    CppFunction cppFunction(
+        Virtual, "void", "update", Abstract
+    );
+    validate_cpp_function(cppFunction, "Widget",
+R"(
+
+virtual void update() = 0;
+
+)",
+R"(
+
+void Widget::update()
+{
+}
+
+)",
+R"(
+
+virtual void Widget::update() = 0;
 
 )");
 }

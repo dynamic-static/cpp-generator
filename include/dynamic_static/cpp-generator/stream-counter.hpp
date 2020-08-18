@@ -19,22 +19,32 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
-class StreamTab final
+class StreamCounter final
     : public StreamFilter
 {
 public:
     /**
     TODO : Documentation
     */
-    StreamTab(std::ostream& strm, int count = 0, int size = 4, char fill = ' ');
+    StreamCounter(std::ostream& strm);
 
-    int count { 0 };   //!< TODO : Documentation
-    int size { 4 };    //!< TODO : Documentation
-    char fill { ' ' }; //!< TODO : Documentation
+    /**
+    TODO : Documentation
+    */
+    size_t count() const;
+
+    /**
+    TODO : Documentation
+    */
+    void reset();
+
+    /**
+    TODO : Documentation
+    */
+    void reset(std::ostream& strm);
 
 private:
     int overflow(int c) override final;
-    bool mNewline { true };
 };
 
 } // namespace cppgen

@@ -453,9 +453,39 @@ Widget() = default;
 /**
 TODO : Documentation
 */
+static void validate_cpp_function_collection(
+    const CppFunction::Collection& cppFunctions,
+    std::string_view cppEnclosingType,
+    std::string_view expectedDeclaration,
+    std::string_view expectedDefinition,
+    std::string_view expectedInlineDefinition
+)
+{
+    CHECK(to_string(cppFunctions, Declaration, cppEnclosingType) == expectedDeclaration);
+    CHECK(to_string(cppFunctions, Definition, cppEnclosingType) == expectedDefinition);
+    CHECK(to_string(cppFunctions, Declaration | Definition, cppEnclosingType) == expectedInlineDefinition);
+}
+
+/**
+TODO : Documentation
+*/
+static void validate_cpp_function_collection(
+    const CppFunction::Collection& cppFunctions,
+    std::string_view expectedDeclaration,
+    std::string_view expectedDefinition,
+    std::string_view expectedInlineDefinition
+)
+{
+    validate_cpp_function_collection(cppFunctions, { }, expectedDeclaration, expectedDefinition, expectedInlineDefinition);
+}
+
+/**
+TODO : Documentation
+*/
 TEST_CASE("Empty CppFunction::Collection", "[CppFunction::Collection]")
 {
     CppFunction::Collection cppFunctions;
+    validate_cpp_function_collection(cppFunctions, { }, { }, { });
 }
 
 } // namespace tests

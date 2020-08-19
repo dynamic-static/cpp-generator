@@ -102,6 +102,7 @@ set(testsSourceFiles
     "${testsSourcePath}/cpp-enum.tests.cpp"
     "${testsSourcePath}/cpp-enumerator.tests.cpp"
     "${testsSourcePath}/cpp-function.tests.cpp"
+    "${testsSourcePath}/cpp-function.collection.tests.cpp"
     "${testsSourcePath}/cpp-namespace.tests.cpp"
     "${testsSourcePath}/cpp-parameter.tests.cpp"
     "${testsSourcePath}/cpp-source-block.tests.cpp"

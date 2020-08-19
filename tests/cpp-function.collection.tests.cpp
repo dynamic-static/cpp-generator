@@ -8,6 +8,8 @@
 ==========================================
 */
 
+#if 0
+
 #include "dynamic_static/cpp-generator/cpp-function.hpp"
 
 #include "catch.hpp"
@@ -331,4 +333,6 @@ R"(
 R"(
 )");
 }
+#endif
+
 #endif

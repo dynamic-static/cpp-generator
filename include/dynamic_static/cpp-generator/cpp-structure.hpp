@@ -79,18 +79,29 @@ private:
             process_ctor_string_argument(arg);
         } else
         if constexpr (std::is_same_v<decltype(arg), CppFlagBits> || std::is_integral_v<decltype(arg)>) {
-            cppFlags |= arg;
+            mCppFlags |= arg;
         } else
         if constexpr (std::is_same_v<decltype(arg), CppAccessSpecifier>) {
             mCppAccessModififer = arg;
         } else
-        if constexpr (std::is_base_of_v<decltype(arg), CppElement>) {
+        if constexpr (std::is_base_of_v<CppElement, decltype(arg)>) {
             mCppElementPtrs.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
         } else {
             static_assert(
                 !std::is_same_v<decltype(arg), decltype(arg)>,
-                "TODO : Documentation"
+                "CppStructure ctor given unsupported type\n"
+                "CppStructure ctor arguments must be one of:\n"
+                "   CppCompileGuard\n"
+                "   CppCompileGuard::Collection\n"
+                "   CppTemplate\n"
+                "   char*\n"
+                "   std::string\n"
+                "   std::string_view\n"
+                "   CppFlagBits\n"
+                "   CppAccessSpecifier\n"
+                "   CppElement\n"
             );
+            UnsupportedType<Argument<ArgIndex>, decltype(arg)> CppStructure_UnsupportedType;
         }
         process_ctor_arguments<ArgIndex + 1>(args);
     }

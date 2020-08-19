@@ -24,6 +24,10 @@ assert(EXPRESSION && "dynamic_static.cpp-generator maintenance required")
 namespace dst {
 namespace cppgen {
 
+constexpr int VersionMajor { DYNAMIC_STATIC_CPP_GENERATOR_VERSION_MAJOR }; /*!< dynamic_static.cpp-generator major version */
+constexpr int VersionMinor { DYNAMIC_STATIC_CPP_GENERATOR_VERSION_MINOR }; /*!< dynamic_static.cpp-generator minor version */
+constexpr int VersionPatch { DYNAMIC_STATIC_CPP_GENERATOR_VERSION_PATCH }; /*!< dynamic_static.cpp-generator patch version */
+
 /**
 TODO : Documentation
 */
@@ -78,9 +82,17 @@ enum CppAccessSpecifier
     Private,     //!< TODO : Documentation
 };
 
-constexpr int VersionMajor { DYNAMIC_STATIC_CPP_GENERATOR_VERSION_MAJOR }; /*!< dynamic_static.cpp-generator major version */
-constexpr int VersionMinor { DYNAMIC_STATIC_CPP_GENERATOR_VERSION_MINOR }; /*!< dynamic_static.cpp-generator minor version */
-constexpr int VersionPatch { DYNAMIC_STATIC_CPP_GENERATOR_VERSION_PATCH }; /*!< dynamic_static.cpp-generator patch version */
+/**
+TODO : Documentation
+*/
+template <size_t I>
+struct Argument;
+
+/**
+TODO : Documentation
+*/
+template <typename I, typename T>
+struct UnsupportedType;
 
 } // namespace cppgen
 } // namespace dst

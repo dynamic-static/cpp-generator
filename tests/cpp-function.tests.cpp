@@ -75,7 +75,7 @@ TODO : Documentation
 TEST_CASE("CppFunction", "[CppFunction]")
 {
     CppFunction cppFunction(
-        "void", "update",
+        "void", "fn",
         CppSourceBlock {
             "// CppSourceBlock"
         }
@@ -83,12 +83,12 @@ TEST_CASE("CppFunction", "[CppFunction]")
     validate_cpp_function(cppFunction,
 R"(
 
-void update();
+void fn();
 
 )",
 R"(
 
-void update()
+void fn()
 {
     // CppSourceBlock
 }
@@ -96,7 +96,7 @@ void update()
 )",
 R"(
 
-inline void update()
+inline void fn()
 {
     // CppSourceBlock
 }
@@ -114,7 +114,7 @@ TEST_CASE("CppFunction with CppCompileGuards", "[CppFunction]")
             "DYNAMIC_STATIC_PLATFORM",
             "DYNAMIC_STATIC_FEATURE_ENABLED",
         },
-        "void", "update",
+        "void", "fn",
         CppSourceBlock {
             "// CppSourceBlock"
         }
@@ -125,7 +125,7 @@ TEST_CASE("CppFunction with CppCompileGuards", "[CppFunction]")
 
 #ifdef DYNAMIC_STATIC_PLATFORM
 #ifdef DYNAMIC_STATIC_FEATURE_ENABLED
-void update();
+void fn();
 #endif // DYNAMIC_STATIC_FEATURE_ENABLED
 #endif // DYNAMIC_STATIC_PLATFORM
 
@@ -134,7 +134,7 @@ R"(
 
 #ifdef DYNAMIC_STATIC_PLATFORM
 #ifdef DYNAMIC_STATIC_FEATURE_ENABLED
-void update()
+void fn()
 {
     // CppSourceBlock
 }
@@ -146,7 +146,7 @@ R"(
 
 #ifdef DYNAMIC_STATIC_PLATFORM
 #ifdef DYNAMIC_STATIC_FEATURE_ENABLED
-inline void update()
+inline void fn()
 {
     // CppSourceBlock
 }
@@ -162,7 +162,7 @@ TODO : Documentation
 TEST_CASE("CppFunction with single CppParameter", "[CppFunction]")
 {
     CppFunction cppFunction(
-        "void", "update", CppParameter { "const Widget*", "pWidget", "nullptr" },
+        "void", "fn", CppParameter { "const Widget*", "pWidget", "nullptr" },
         CppSourceBlock {R"(
             if (pWidget) {
                 process(*pWidget);
@@ -172,12 +172,12 @@ TEST_CASE("CppFunction with single CppParameter", "[CppFunction]")
     validate_cpp_function(cppFunction,
 R"(
 
-void update(const Widget* pWidget = nullptr);
+void fn(const Widget* pWidget = nullptr);
 
 )",
 R"(
 
-void update(const Widget* pWidget)
+void fn(const Widget* pWidget)
 {
     if (pWidget) {
         process(*pWidget);
@@ -187,7 +187,7 @@ void update(const Widget* pWidget)
 )",
 R"(
 
-inline void update(const Widget* pWidget = nullptr)
+inline void fn(const Widget* pWidget = nullptr)
 {
     if (pWidget) {
         process(*pWidget);
@@ -203,7 +203,7 @@ TODO : Documentation
 TEST_CASE("CppFunction with multiple CppParameters", "[CppFunction]")
 {
     CppFunction cppFunction(
-        "void", "update", CppParameters {{ "size_t", "widgetCount", "0" }, { "const Widget*", "pWidgets", "nullptr" }},
+        "void", "fn", CppParameters {{ "size_t", "widgetCount", "0" }, { "const Widget*", "pWidgets", "nullptr" }},
         CppSourceBlock { R"(
             if (widgetCount && pWidgets) {
                 for (size_t i = 0; i < widgetCount; ++i) {
@@ -215,12 +215,12 @@ TEST_CASE("CppFunction with multiple CppParameters", "[CppFunction]")
     validate_cpp_function(cppFunction,
         R"(
 
-void update(size_t widgetCount = 0, const Widget* pWidgets = nullptr);
+void fn(size_t widgetCount = 0, const Widget* pWidgets = nullptr);
 
 )",
 R"(
 
-void update(size_t widgetCount, const Widget* pWidgets)
+void fn(size_t widgetCount, const Widget* pWidgets)
 {
     if (widgetCount && pWidgets) {
         for (size_t i = 0; i < widgetCount; ++i) {
@@ -232,7 +232,7 @@ void update(size_t widgetCount, const Widget* pWidgets)
 )",
 R"(
 
-inline void update(size_t widgetCount = 0, const Widget* pWidgets = nullptr)
+inline void fn(size_t widgetCount = 0, const Widget* pWidgets = nullptr)
 {
     if (widgetCount && pWidgets) {
         for (size_t i = 0; i < widgetCount; ++i) {
@@ -251,13 +251,13 @@ TEST_CASE("CppFunction with CppTemplate", "[CppFunction]")
 {
     CppFunction cppFunction(
         CppTemplate { CppParameters {{ "typename", "WidgetType" }}},
-        "void", "update", CppParameters {{ "const WidgetType&", "widget" }}
+        "void", "fn", CppParameters {{ "const WidgetType&", "widget" }}
     );
     validate_cpp_function(cppFunction,
 R"(
 
 template <typename WidgetType>
-inline void update(const WidgetType& widget)
+inline void fn(const WidgetType& widget)
 {
 }
 
@@ -266,7 +266,7 @@ inline void update(const WidgetType& widget)
 R"(
 
 template <typename WidgetType>
-inline void update(const WidgetType& widget)
+inline void fn(const WidgetType& widget)
 {
 }
 
@@ -281,14 +281,14 @@ TEST_CASE("CppFunction with CppTemplate and CppCompileGuard", "[CppFunction]")
     CppFunction cppFunction(
         CppCompileGuard { "DYNAMIC_STATIC_FEATURE_ENABLED" },
         CppTemplate { CppParameters {{ "typename", "WidgetType" }}},
-        "void", "update", CppParameters {{ "const WidgetType&", "widget" }}
+        "void", "fn", CppParameters {{ "const WidgetType&", "widget" }}
     );
     validate_cpp_function(cppFunction,
 R"(
 
 #ifdef DYNAMIC_STATIC_FEATURE_ENABLED
 template <typename WidgetType>
-inline void update(const WidgetType& widget)
+inline void fn(const WidgetType& widget)
 {
 }
 #endif // DYNAMIC_STATIC_FEATURE_ENABLED
@@ -299,7 +299,7 @@ R"(
 
 #ifdef DYNAMIC_STATIC_FEATURE_ENABLED
 template <typename WidgetType>
-inline void update(const WidgetType& widget)
+inline void fn(const WidgetType& widget)
 {
 }
 #endif // DYNAMIC_STATIC_FEATURE_ENABLED
@@ -314,19 +314,19 @@ TEST_CASE("CppFunction with CppTemplate specialization", "[CppFunction]")
 {
     CppFunction cppFunction(
         CppTemplate { CppSpecialization { "Widget" }},
-        "void", "update", CppParameters {{ "const Widget&", "widget" }}
+        "void", "fn", CppParameters {{ "const Widget&", "widget" }}
     );
     validate_cpp_function(cppFunction,
 R"(
 
 template <>
-void update<Widget>(const Widget& widget);
+void fn<Widget>(const Widget& widget);
 
 )",
 R"(
 
 template <>
-void update<Widget>(const Widget& widget)
+void fn<Widget>(const Widget& widget)
 {
 }
 
@@ -334,7 +334,7 @@ void update<Widget>(const Widget& widget)
 R"(
 
 template <>
-inline void update<Widget>(const Widget& widget)
+inline void fn<Widget>(const Widget& widget)
 {
 }
 
@@ -348,13 +348,13 @@ TEST_CASE("CppFunction with CppTemplate partial specialization", "[CppFunction]"
 {
     CppFunction cppFunction(
         CppTemplate { CppParameter { "size_t", "Count", "4" }, CppSpecialization { "Widget" } },
-        "void", "update", CppParameters {{ "const std::array<Widget, Count>&", "widgets" }}
+        "void", "fn", CppParameters {{ "const std::array<Widget, Count>&", "widgets" }}
     );
     validate_cpp_function(cppFunction,
 R"(
 
 template <size_t Count = 4>
-inline void update<Widget>(const std::array<Widget, Count>& widgets)
+inline void fn<Widget>(const std::array<Widget, Count>& widgets)
 {
 }
 
@@ -363,7 +363,7 @@ inline void update<Widget>(const std::array<Widget, Count>& widgets)
 R"(
 
 template <size_t Count = 4>
-inline void update<Widget>(const std::array<Widget, Count>& widgets)
+inline void fn<Widget>(const std::array<Widget, Count>& widgets)
 {
 }
 
@@ -376,24 +376,24 @@ TODO : Documentation
 TEST_CASE("CppFunction member", "[CppFunction]")
 {
     CppFunction cppFunction(
-        "void", "update", Const | Override | Final
+        "void", "fn", Const | Override | Final
     );
     validate_cpp_function(cppFunction, "Widget",
 R"(
 
-void update() const override final;
+void fn() const override final;
 
 )",
 R"(
 
-void Widget::update() const
+void Widget::fn() const
 {
 }
 
 )",
 R"(
 
-void update() const override final
+void fn() const override final
 {
 }
 
@@ -406,24 +406,24 @@ TODO : Documentation
 TEST_CASE("CppFunction abstract member", "[CppFunction]")
 {
     CppFunction cppFunction(
-        Virtual, "void", "update", Abstract
+        Virtual, "void", "fn", Abstract
     );
     validate_cpp_function(cppFunction, "Widget",
 R"(
 
-virtual void update() = 0;
+virtual void fn() = 0;
 
 )",
 R"(
 
-void Widget::update()
+void Widget::fn()
 {
 }
 
 )",
 R"(
 
-virtual void update() = 0;
+virtual void fn() = 0;
 
 )");
 }
@@ -453,6 +453,19 @@ Widget() = default;
 /**
 TODO : Documentation
 */
+static std::string to_padded_string(
+    const CppFunction::Collection& cppFunctions,
+    CppGenerationFlags cppGenerationFlags,
+    std::string_view cppEnclosingType
+)
+{
+    auto str = to_string(cppFunctions, cppGenerationFlags, cppEnclosingType);
+    return !str.empty() ? "\n\n" + str + '\n' : str;
+}
+
+/**
+TODO : Documentation
+*/
 static void validate_cpp_function_collection(
     const CppFunction::Collection& cppFunctions,
     std::string_view cppEnclosingType,
@@ -461,9 +474,9 @@ static void validate_cpp_function_collection(
     std::string_view expectedInlineDefinition
 )
 {
-    CHECK(to_string(cppFunctions, Declaration, cppEnclosingType) == expectedDeclaration);
-    CHECK(to_string(cppFunctions, Definition, cppEnclosingType) == expectedDefinition);
-    CHECK(to_string(cppFunctions, Declaration | Definition, cppEnclosingType) == expectedInlineDefinition);
+    CHECK(to_padded_string(cppFunctions, Declaration, cppEnclosingType) == expectedDeclaration);
+    CHECK(to_padded_string(cppFunctions, Definition, cppEnclosingType) == expectedDefinition);
+    CHECK(to_padded_string(cppFunctions, Declaration | Definition, cppEnclosingType) == expectedInlineDefinition);
 }
 
 /**
@@ -488,6 +501,190 @@ TEST_CASE("Empty CppFunction::Collection", "[CppFunction::Collection]")
     validate_cpp_function_collection(cppFunctions, { }, { }, { });
 }
 
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction::Collection", "[CppFunction::Collection]")
+{
+    CppFunction::Collection cppFunctions {
+        {
+            "void", "fn0",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }
+        },
+        {
+            "void", "fn1",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }
+        },
+        {
+            "void", "fn2",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }
+        }
+    };
+    validate_cpp_function_collection(cppFunctions,
+R"(
+
+void fn0();
+void fn1();
+void fn2();
+
+)",
+R"(
+
+void fn0()
+{
+    // CppSourceBlock
+}
+
+void fn1()
+{
+    // CppSourceBlock
+}
+
+void fn2()
+{
+    // CppSourceBlock
+}
+
+)",
+R"(
+
+inline void fn0()
+{
+    // CppSourceBlock
+}
+
+inline void fn1()
+{
+    // CppSourceBlock
+}
+
+inline void fn2()
+{
+    // CppSourceBlock
+}
+
+)");
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction::Collection with CppCompileGuards", "[CppFunction::Collection]")
+{
+    CppFunction::Collection cppFunctions {
+        {
+            "void", "fn0",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }
+        },
+        {
+            CppCompileGuards {
+                "DYNAMIC_STATIC_PLATFORM",
+                "DYNAMIC_STATIC_FEATURE_FN1_ENABLED",
+            },
+            "void", "fn1",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }
+        },
+        {
+            CppCompileGuard {
+                "DYNAMIC_STATIC_FEATURE_FN2_ENABLED"
+            },
+            "void", "fn2",
+            CppSourceBlock {
+                "// CppSourceBlock"
+            }
+        }
+    };
+    validate_cpp_function_collection(cppFunctions,
+R"(
+
+void fn0();
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_FN1_ENABLED
+void fn1();
+#endif // DYNAMIC_STATIC_FEATURE_FN1_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_FN2_ENABLED
+void fn2();
+#endif // DYNAMIC_STATIC_FEATURE_FN2_ENABLED
+
+)",
+R"(
+
+void fn0()
+{
+    // CppSourceBlock
+}
+
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_FN1_ENABLED
+void fn1()
+{
+    // CppSourceBlock
+}
+#endif // DYNAMIC_STATIC_FEATURE_FN1_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+
+#ifdef DYNAMIC_STATIC_FEATURE_FN2_ENABLED
+void fn2()
+{
+    // CppSourceBlock
+}
+#endif // DYNAMIC_STATIC_FEATURE_FN2_ENABLED
+
+)",
+R"(
+
+inline void fn0()
+{
+    // CppSourceBlock
+}
+
+#ifdef DYNAMIC_STATIC_PLATFORM
+#ifdef DYNAMIC_STATIC_FEATURE_FN1_ENABLED
+inline void fn1()
+{
+    // CppSourceBlock
+}
+#endif // DYNAMIC_STATIC_FEATURE_FN1_ENABLED
+#endif // DYNAMIC_STATIC_PLATFORM
+
+#ifdef DYNAMIC_STATIC_FEATURE_FN2_ENABLED
+inline void fn2()
+{
+    // CppSourceBlock
+}
+#endif // DYNAMIC_STATIC_FEATURE_FN2_ENABLED
+
+)");
+}
+
 } // namespace tests
 } // namespace cppgen
 } // namespace dst
+
+#if 0
+/**
+TODO : Documentation
+*/
+TEST_CASE("CppFunction::Collection", "[CppFunction::Collection]")
+{
+    CppFunction::Collection cppFunctions;
+    validate_cpp_function_collection(cppFunctions,
+        R"(
+)",
+R"(
+)",
+R"(
+)");
+}
+#endif

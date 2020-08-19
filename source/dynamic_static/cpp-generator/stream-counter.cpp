@@ -20,6 +20,7 @@ StreamCounter::StreamCounter(std::ostream& strm)
 
 size_t StreamCounter::count() const
 {
+    return 0;
 }
 
 void StreamCounter::reset()
@@ -32,6 +33,7 @@ void StreamCounter::reset(std::ostream& strm)
 
 int StreamCounter::overflow(int c)
 {
+    return 0;
 }
 
 } // namespace cppgen

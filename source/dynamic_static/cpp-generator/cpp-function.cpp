@@ -86,7 +86,7 @@ void CppFunction::Collection::generate(std::ostream& strm, CppGenerationFlags cp
 {
     size_t count = 0;
     for (const auto& element : *this) {
-        if (cppGenerationFlags & Definition || count++) {
+        if (cppGenerationFlags & Definition && count++) {
             strm << '\n';
         }
         element.generate(strm, cppGenerationFlags, cppEnclosingType);

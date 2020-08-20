@@ -85,7 +85,7 @@ private:
             mCppAccessModififer = arg;
         } else
         if constexpr (std::is_base_of_v<CppElement, decltype(arg)>) {
-            mCppElementPtrs.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
+            mCppElements.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
         } else {
             static_assert(
                 !std::is_same_v<decltype(arg), decltype(arg)>,
@@ -108,12 +108,8 @@ private:
 
     inline void process_ctor_string_argument(std::string_view strView)
     {
-        if (!strView.empty()) {
-            if (mCppName.empty()) {
-                mCppName = strView;
-            } else {
-                mCppDeclarations.emplace_back(strView);
-            }
+        if (mCppName.empty() && !strView.empty()) {
+            mCppName = strView;
         }
     }
 
@@ -121,8 +117,7 @@ private:
     CppTemplate mCppTemplate;
     std::string mCppName;
     CppFlags mCppFlags { };
-    CppDeclaration::Collection mCppDeclarations;
-    std::vector<std::pair<CppAccessSpecifier, std::unique_ptr<CppElement>>> mCppElementPtrs;
+    std::vector<std::pair<CppAccessSpecifier, std::unique_ptr<CppElement>>> mCppElements;
     CppAccessSpecifier mCppAccessModififer { Unspecified };
 };
 

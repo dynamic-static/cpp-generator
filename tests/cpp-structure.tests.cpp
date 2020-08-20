@@ -91,8 +91,7 @@ TEST_CASE("CppStructure", "[CppStructure]")
                 )"}
             },
         Private,
-            3.14f
-            // CppVariable { "std::string", "mName", "\"Widget\"" }
+            CppVariable { "std::string", "mName", "\"Widget\"" }
     };
     validate_cpp_structure(cppStructure,
 R"(

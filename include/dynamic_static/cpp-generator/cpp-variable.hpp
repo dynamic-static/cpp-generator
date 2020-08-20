@@ -41,27 +41,31 @@ public:
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
 
-    std::string cppType;  //!< TODO : Documentation
-    std::string cppName;  //!< TODO : Documentation
-    std::string cppValue; //!< TODO : Documentation
+    CppFlags cppFlags { }; //!< TODO : Documentation
+    std::string cppType;   //!< TODO : Documentation
+    std::string cppName;   //!< TODO : Documentation
+    std::string cppValue;  //!< TODO : Documentation
 };
 
-#if 0
 /**
 TODO : Documentation
 */
 class CppVariable::Collection final
-    : public CppElementCollection<CppVariable>
+    : public CppElement::Collection<CppVariable>
 {
 public:
-    using CppElementCollection<CppVariable>::CppElementCollection;
+    using CppElement::Collection<CppVariable>::Collection;
 
     /**
     TODO : Documentation
     */
     void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
 };
-#endif
+
+/**
+TODO : Documentation
+*/
+using CppVariables = CppVariable::Collection;
 
 } // namespace cppgen
 } // namespace dst

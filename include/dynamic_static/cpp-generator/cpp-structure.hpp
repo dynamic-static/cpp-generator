@@ -108,8 +108,12 @@ private:
 
     inline void process_ctor_string_argument(std::string_view strView)
     {
-        if (mCppName.empty() && !strView.empty()) {
-            mCppName = strView;
+        if (!strView.empty()) {
+            if (mCppName.empty()) {
+                mCppName = strView;
+            } else {
+                mCppBaseTypes.emplace_back(strView);
+            }
         }
     }
 
@@ -117,6 +121,7 @@ private:
     CppTemplate mCppTemplate;
     std::string mCppName;
     CppFlags mCppFlags { };
+    std::vector<std::string> mCppBaseTypes;
     std::vector<std::pair<CppAccessSpecifier, std::unique_ptr<CppElement>>> mCppElements;
     CppAccessSpecifier mCppAccessModififer { Unspecified };
 };

@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "dynamic_static/cpp-generator/cpp-base-type.hpp"
 #include "dynamic_static/cpp-generator/cpp-compile-guard.hpp"
 #include "dynamic_static/cpp-generator/cpp-declaration.hpp"
 #include "dynamic_static/cpp-generator/cpp-element.hpp"
@@ -23,6 +24,7 @@
 #include <string>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 namespace dst {
@@ -81,11 +83,17 @@ private:
         if constexpr (std::is_same_v<decltype(arg), CppFlagBits> || std::is_integral_v<decltype(arg)>) {
             mCppFlags |= arg;
         } else
+        if constexpr (std::is_same_v<decltype(arg), CppBaseType>) {
+            mCppBaseTypes.push_back(arg);
+        } else
+        if constexpr (std::is_same_v<decltype(arg), CppBaseTypes>) {
+            append(mCppBaseTypes, arg);
+        } else
         if constexpr (std::is_same_v<decltype(arg), CppAccessSpecifier>) {
             mCppAccessModififer = arg;
         } else
         if constexpr (std::is_base_of_v<CppElement, decltype(arg)>) {
-            mCppElements.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
+            // mCppElements.push_back({ mCppAccessModififer, std::make_unique<decltype(arg)>(arg) });
         } else {
             static_assert(
                 !std::is_same_v<decltype(arg), decltype(arg)>,
@@ -111,8 +119,6 @@ private:
         if (!strView.empty()) {
             if (mCppName.empty()) {
                 mCppName = strView;
-            } else {
-                mCppBaseTypes.emplace_back(strView);
             }
         }
     }
@@ -121,10 +127,30 @@ private:
     CppTemplate mCppTemplate;
     std::string mCppName;
     CppFlags mCppFlags { };
-    std::vector<std::string> mCppBaseTypes;
-    std::vector<std::pair<CppAccessSpecifier, std::unique_ptr<CppElement>>> mCppElements;
+    CppBaseTypes mCppBaseTypes;
     CppAccessSpecifier mCppAccessModififer { Unspecified };
+    // std::vector<std::pair<CppAccessSpecifier, std::unique_ptr<CppElement>>> mCppElements;
 };
+
+/**
+TODO : Documentation
+*/
+class CppStructure::Collection final
+    : public CppElement::Collection<CppStructure>
+{
+public:
+    using CppElement::Collection<CppStructure>::Collection;
+
+    /**
+    TODO : Documentation
+    */
+    void generate(std::ostream& strm, CppGenerationFlags cppGenerationFlags, std::string_view cppEnclosingType = { }) const override final;
+};
+
+/**
+TODO : Documentation
+*/
+using CppStructures = CppStructure::Collection;
 
 } // namespace cppgen
 } // namespace dst

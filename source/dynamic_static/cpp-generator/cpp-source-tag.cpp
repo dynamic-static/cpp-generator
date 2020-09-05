@@ -108,6 +108,16 @@ size_t CppSourceTag::get_end_index(std::string_view) const
     return mEnd;
 }
 
+size_t CppSourceTag::get_indentation(std::string_view cppSource) const
+{
+    auto lineBeginIndex = mBegin;
+    while (lineBeginIndex && cppSource[lineBeginIndex] != '\n') {
+        --lineBeginIndex;
+    }
+    lineBeginIndex += (int)(cppSource[lineBeginIndex] == '\n');
+    return mBegin - lineBeginIndex;
+}
+
 std::string CppSourceTag::str(std::string_view cppSource) const
 {
     std::stringstream strStrm;
@@ -121,7 +131,17 @@ std::string CppSourceTag::process_cpp_source(std::string_view cppSource, const C
     const auto& value = cppSourceBlock.get_value();
     if (!value.empty()) {
         strStrm << get_cpp_source_block_option_value("l");
-        strStrm << cppSourceBlock.get_value();
+        const auto& [lines, linesIndentation] = string::get_lines_and_indentation(cppSourceBlock.get_value());
+        auto indentation = get_indentation(cppSource);
+        for (auto itr = lines.begin(); itr != lines.end(); ++itr) {
+            if (itr != lines.begin()) {
+                strStrm << std::string(indentation, ' ');
+            }
+            strStrm << itr->str_view(cppSourceBlock.get_value());
+            if (itr + 1 != lines.end()) {
+                strStrm << '\n';
+            }
+        }
         strStrm << get_cpp_source_block_option_value("f");
     }
     return strStrm.str();

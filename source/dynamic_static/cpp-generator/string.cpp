@@ -165,10 +165,21 @@ std::string format(std::string_view strView)
 {
     std::stringstream strStrm;
     const auto& [lines, indentation] = get_lines_and_indentation(strView);
+    #if 0
     for (auto line : lines) {
         line.begin += indentation;
         strStrm << line.str_view(strView) << '\n';
     }
+    #else
+    for (auto itr = lines.begin(); itr != lines.end(); ++itr) {
+        auto line = *itr;
+        line.begin += indentation;
+        strStrm << line.str_view(strView);
+        if (itr + 1 != lines.end()) {
+            strStrm << '\n';
+        }
+    }
+    #endif
     return strStrm.str();
 }
 

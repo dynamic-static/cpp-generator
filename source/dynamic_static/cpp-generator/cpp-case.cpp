@@ -28,7 +28,7 @@ void CppCase::generate(std::ostream& strm, CppGenerationFlags, std::string_view)
         strm << ": {\n";
         {
             StreamTab strmTab(strm, 1);
-            strm << cppSourceBlock;
+            strm << cppSourceBlock << '\n';
         }
         strm << "}";
         if (cppFlags & Break) {

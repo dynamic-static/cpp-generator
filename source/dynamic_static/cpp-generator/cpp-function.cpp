@@ -41,8 +41,10 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
         if ((cppGenerationFlags & (Declaration | Definition)) == (Declaration | Definition) && cppEnclosingType.empty()) {
             strm << "inline ";
         }
+        if (cppFlags & Static && (cppGenerationFlags & Declaration || cppEnclosingType.empty())) {
+            strm << "static ";
+        }
         if (cppGenerationFlags & Declaration) {
-            strm << (cppFlags & Static  ? "static "  : "");
             strm << (cppFlags & Extern  ? "extern "  : "");
             strm << (cppFlags & Virtual ? "virtual " : "");
             strm << (cppFlags & Friend  ? "friend "  : "");
@@ -71,7 +73,7 @@ void CppFunction::generate(std::ostream& strm, CppGenerationFlags cppGenerationF
             strm << "\n{\n";
             {
                 StreamTab strmTab(strm, 1);
-                strm << cppSourceBlock;
+                strm << cppSourceBlock << '\n';
             }
             strm << '}';
         } else {

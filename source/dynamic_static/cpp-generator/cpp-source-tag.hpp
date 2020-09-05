@@ -38,6 +38,7 @@ public:
     Type get_type() const;
     size_t get_begin_index(std::string_view cppSource = { }) const override final;
     size_t get_end_index(std::string_view cppSource = { }) const override final;
+    size_t get_indentation(std::string_view cppSource) const;
     std::string str(std::string_view cppSource) const override final;
     std::string process_cpp_source(std::string_view cppSource, const CppSourceBlock& cppSourceBlock) const override final;
 

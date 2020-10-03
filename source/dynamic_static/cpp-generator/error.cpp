@@ -8,9 +8,10 @@
 ==========================================
 */
 
-#pragma once
-
-#include "dynamic_static/cpp-generator/defines.hpp"
 #include "dynamic_static/cpp-generator/error.hpp"
-#include "dynamic_static/cpp-generator/file.hpp"
-#include "dynamic_static/cpp-generator/source-block.hpp"
+
+namespace dst {
+namespace cppgen {
+
+} // namespace cppgen
+} // namespace dst

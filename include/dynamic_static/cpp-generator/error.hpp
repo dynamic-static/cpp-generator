@@ -11,6 +11,20 @@
 #pragma once
 
 #include "dynamic_static/cpp-generator/defines.hpp"
-#include "dynamic_static/cpp-generator/error.hpp"
-#include "dynamic_static/cpp-generator/file.hpp"
-#include "dynamic_static/cpp-generator/source-block.hpp"
+
+#include <stdexcept>
+
+namespace dst {
+namespace cppgen {
+
+/**
+TODO : Documentation
+*/
+class Error final
+    : public std::exception
+{
+public:
+};
+
+} // namespace cppgen
+} // namespace dst

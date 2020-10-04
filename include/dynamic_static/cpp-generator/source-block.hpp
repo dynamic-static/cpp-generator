@@ -107,6 +107,7 @@ public:
 
 private:
     void set_source_blocks(const std::vector<SourceBlock>& sourceBlocks);
+    void set_parent_ptrs();
     std::string mSource;
     Condition mCondition;
     std::string mKey;

@@ -115,6 +115,7 @@ void SourceRegion::process_source(std::string_view source, const SourceBlock& so
 template <typename ItrType>
 void SourceRegion::process_source_blocks(std::string_view source, ItrType begin, ItrType end, StreamWriter& strmWriter) const
 {
+    // TODO : Differentiate head and tail seperators...
     strmWriter << get_option("head");
     const auto& seperator = get_option("seperator");
     for (auto itr = begin; itr != end; ++itr) {

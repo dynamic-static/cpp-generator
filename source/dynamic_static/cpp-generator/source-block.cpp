@@ -70,6 +70,7 @@ std::ostream& operator<<(std::ostream& ostrm, const SourceBlock& sourceBlock)
 {
     SourceRegion region(sourceBlock.mSource);
     if (region.get_errors().empty()) {
+        const_cast<SourceBlock&>(sourceBlock).set_parent_ptrs();
         region.process_source(sourceBlock.mSource, sourceBlock, StreamWriter(ostrm));
     } else {
         // TODO : Error handling
@@ -87,15 +88,24 @@ void SourceBlock::set_source_blocks(const std::vector<SourceBlock>& sourceBlocks
 {
     for (const auto& sourceBlock : sourceBlocks) {
         if (!sourceBlock.mKey.empty()) {
-            auto [itr, inserted] = mKeyedSourceBlocks.insert({ sourceBlock.mKey, sourceBlock });
-            if (inserted) {
-                itr->second.mpParent = this;
-            } else {
+            if (!mKeyedSourceBlocks.insert({ sourceBlock.mKey, sourceBlock }).second) {
                 // TODO : Error handling
             }
         } else {
             mCondition = sourceBlock.get_condition();
         }
+    }
+}
+
+void SourceBlock::set_parent_ptrs()
+{
+    for (auto& sourceBlock : mSourceBlocks) {
+        sourceBlock.mpParent = this;
+        sourceBlock.set_parent_ptrs();
+    }
+    for (auto& keyedSourceBlock : mKeyedSourceBlocks) {
+        keyedSourceBlock.second.mpParent = this;
+        keyedSourceBlock.second.set_parent_ptrs();
     }
 }
 

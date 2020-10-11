@@ -136,6 +136,8 @@ void SourceRegion::process_source_elements(std::string_view source, const Source
         strmWriter.begin_processing_tag();
         strmWriter.end_processing_tag();
         auto pSourceBlock = sourceBlock.get_source_block(pSourceElement->get_key());
+        // TODO : Need to chain Conditions...
+        // TODO : Need to support multiple Consitions in one SourceBlock...
         if (!pSourceBlock && sourceBlock.get_condition().second && pSourceElement->get_option("condition") == sourceBlock.get_condition().first) {
             pSourceBlock = &sourceBlock;
         }

@@ -45,8 +45,6 @@ dst_add_static_library(
         "${sourcePath}/string.hpp"
 )
 
-################################################################################
-
 # dynamic_static.cpp-generator.tests
 # if(DST_CORE_BUILD_TESTS)
     set(testsSourcePath "${CMAKE_CURRENT_LIST_DIR}/tests/")

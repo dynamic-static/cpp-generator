@@ -1,1 +1,1 @@
-# cpp-generator
+# dynamic_static.cpp-generator

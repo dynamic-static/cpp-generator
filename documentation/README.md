@@ -1,4 +1,4 @@
 
-# dynamic_static.system documentation
+# dynamic_static.cpp-generator documentation
 
 TODO : More README...

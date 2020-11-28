@@ -1,25 +1,18 @@
 
 #==========================================
-#  Copyright (c) 2016-2020 dynamic_static
+#  Copyright (c) 2020 dynamic_static
 #    Patrick Purcell
 #      Licensed under the MIT license
 #    http://opensource.org/licenses/MIT
 #==========================================
 
-# dynamic_static.Core CMake configuration
 cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 project(dynamic_static.cpp-generator VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
+# Dependencies
 set(external "${CMAKE_CURRENT_LIST_DIR}/external/")
 include("${external}/dynamic_static.build.cmake")
-
-# TODO : Documentation
-function(dst_add_cpp_generator)
-    cmake_parse_arguments(args "" "target;folder" "inputFiles;includeDirectories;includeFiles;sourceFiles;linkLibraries;compileDefinitions" ${ARGN})
-    dst_add_executable(${ARGN})
-    target_link_libraries(${args_target} dynamic_static.cpp-generator)
-endfunction()
 
 # dynamic_static.cpp-generator library
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include/")
@@ -70,3 +63,10 @@ dst_add_static_library(
             "${testsSourcePath}/string.tests.cpp"
     )
 # endif()
+
+# TODO : Documentation
+function(dst_add_cpp_generator)
+    cmake_parse_arguments(args "" "target;folder" "inputFiles;includeDirectories;includeFiles;sourceFiles;linkLibraries;compileDefinitions" ${ARGN})
+    dst_add_executable(${ARGN})
+    target_link_libraries(${args_target} dynamic_static.cpp-generator)
+endfunction()

@@ -10,9 +10,9 @@
 cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 project(dynamic_static.cpp-generator VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
-################################################################################
-include("${CMAKE_CURRENT_LIST_DIR}/../dynamic_static.build/dynamic_static.cmake")
-################################################################################
+
+set(external "${CMAKE_CURRENT_LIST_DIR}/external/")
+include("${external}/dynamic_static.build.cmake")
 
 # TODO : Documentation
 function(dst_add_cpp_generator)
